@@ -7,16 +7,18 @@ import LandingPage from '../../Components/LandingPage';
 import TestimonialsPage from '../../Components/TestimonialsPage';
 import PartnersPage from '../../Components/PartnersPage';
 import FooterPage from '../../Components/FooterPage';
+import { CategoryShowcase } from './CategoriesSection';
 
 const Home = () => {
   return (
     <div>
       <HomePage />
-      <ProductPage />
+      <CategoryShowcase />
+      {/* <ProductPage /> */}
       <FeaturePage />
       <LocationPage />
       <LandingPage />
-      <TestimonialsPage />
+      {/* <TestimonialsPage /> */}
       <PartnersPage />
       <FooterPage />
     </div>

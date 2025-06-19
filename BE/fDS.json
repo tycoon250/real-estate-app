@@ -1062,5 +1062,33 @@
   {
     "filePath": "C:\\Users\\Administrator\\Documents\\p\\real-estate-app\\BE\\root.config.js",
     "dD": "2025-07-19T20:01:49.161Z"
+  },
+  {
+    "filePath": "C:\\Users\\Administrator\\Documents\\p\\real-estate-app\\BE\\models\\user.model.js",
+    "dD": "2025-06-29T18:29:50.014Z"
+  },
+  {
+    "filePath": "C:\\Users\\Administrator\\Documents\\p\\real-estate-app\\BE\\models\\product.model.js",
+    "dD": "2025-06-29T18:29:50.018Z"
+  },
+  {
+    "filePath": "C:\\Users\\Administrator\\Documents\\p\\real-estate-app\\BE\\controlers\\product.controler.js",
+    "dD": "2025-06-29T18:29:50.020Z"
+  },
+  {
+    "filePath": "C:\\Users\\Administrator\\Documents\\p\\real-estate-app\\BE\\controlers\\user.controler.js",
+    "dD": "2025-06-29T18:29:50.023Z"
+  },
+  {
+    "filePath": "C:\\Users\\Administrator\\Documents\\p\\real-estate-app\\BE\\routes\\authRoutes.js",
+    "dD": "2025-06-29T18:29:50.024Z"
+  },
+  {
+    "filePath": "C:\\Users\\Administrator\\Documents\\p\\real-estate-app\\BE\\routes\\productRoutes.js",
+    "dD": "2025-06-29T18:29:50.026Z"
+  },
+  {
+    "filePath": "C:\\Users\\Administrator\\Documents\\p\\real-estate-app\\BE\\root.config.js",
+    "dD": "2025-07-20T20:01:49.161Z"
   }
 ]

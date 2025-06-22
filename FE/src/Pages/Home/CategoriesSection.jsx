@@ -55,6 +55,9 @@ import fitness from "../../Assets/fitness.jpg";
  import GiftCards from "../../Assets/GiftCards.jpg";
  import SeasonalItems from "../../Assets/SeasonalItems.webp";
  import Personalized  from "../../Assets/Personalized.jpg";
+ import Plotsale from "../../Assets/Plotsale.jpg";
+ import UseCar from "../../Assets/UseCar.jpg";
+ import Others from "../../Assets/Others.jpg";
 
 // Static category and subcategory data
 const CATEGORIES = [
@@ -71,6 +74,8 @@ const CATEGORIES = [
     "Pets Supplies",
     "Tools & Hardware",
     "Gifts & Special Occasions",
+    "Plot & Used Materials",
+
   ];
   let OPTIONS
   const TYPES = CATEGORIES.map((category,index) => {
@@ -155,6 +160,11 @@ const CATEGORIES = [
         { image: GiftCards, id: "gift-cards", label: "Gift Cards", href: "/gifts/gift-cards" },
         { image: SeasonalItems, id: "seasonal-items", label: "Seasonal Items (e.g. Christmas, Valentine's Day)", href: "/gifts/seasonal-items" },
         { image: Personalized , id: "personalized-gifts", label: "Personalized Gifts", href: "/gifts/personalized-gifts" },
+      ],
+      "Plot & Used Materials": [
+        { image: Plotsale, id: "plot-sale", label: "Plots for Sale", href: "/plot" },
+        { image: UseCar, id: "used-car", label: "Used car ", href: "/car/motobike" },
+        { image: Others , id: "other-thing", label: "Other Things for Sale", href: "/gifts/All Materials" },
       ],
     };
     return { category, children: OPTIONS[category], id : index || [] };

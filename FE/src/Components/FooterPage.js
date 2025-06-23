@@ -9,7 +9,7 @@ const FooterPage = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
         <div className='space-y-4'>
-        <h2 className="text-xl font-bold mb-6">Real estate logo</h2>
+        <h2 className="text-xl font-bold mb-6">Chika Online Market</h2>
         </div>
       
          {/* Social Media Icons */}

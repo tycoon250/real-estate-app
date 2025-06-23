@@ -1,98 +1,256 @@
-import React from 'react';
-import rent11 from '../Assets/rent11.png'
-import rent22 from '../Assets/rent22.png'
+import React, { useState } from 'react';
+import { ChevronLeft, ChevronRight, Calendar, MessageCircle, User } from 'lucide-react';
 
-const FeaturePage = () => {
-  const features = [
+export default function ServicesCarouselSection() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const carouselItems = [
     {
-      title: "Wide Range of Properties",
-      description: "Browse through our extensive collection of properties, from cozy apartments to luxury homes.",
-      icon: (
-        <svg className="w-12 h-12 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <rect x="3" y="3" width="18" height="18" rx="2" strokeWidth="2"/>
-          <path d="M3 9h18" strokeWidth="2"/>
-          <path d="M9 21V9" strokeWidth="2"/>
-        </svg>
-      )
+      id: 1,
+      title: "rent",
+      image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=250&fit=crop",
+      description: "Items must be returned in original condition. Late returns incur fees. Renters and owners must agree on period, usage terms, and responsibility for damages.",
+      link: "Read more »"
     },
     {
-      title: "Trusted by thousands",
-      description: "Join our community of satisfied customers who have found their perfect property through us.",
-      icon: (
-        <svg className="w-12 h-12 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <circle cx="12" cy="8" r="5" strokeWidth="2"/>
-          <path d="M20 21c0-4.418-3.582-8-8-8s-8 3.582-8 8" strokeWidth="2"/>
-        </svg>
-      )
+      id: 2,
+      title: "Buy",
+      image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=250&fit=crop",
+      description: "All purchases are final unless seller offers return policy. Buyers must verify product details. Chika is not liable for disputes use verified sellers for safety.",
+      link: "Read more »"
     },
     {
-      title: "Financing made easy",
-      description: "Get help with financing options and make your dream property purchase a reality.",
-      icon: (
-        <svg className="w-12 h-12 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <circle cx="12" cy="12" r="10" strokeWidth="2"/>
-          <path d="M15 9.354a4 4 0 1 0 0 5.292" strokeWidth="2"/>
-        </svg>
-      )
+      id: 3,
+      title: "Sell",
+      image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=250&fit=crop",
+      description: "Sellers must list accurate product details and deliver on time. Fraud or misleading ads will be removed. Chika may suspend accounts violating marketplace policies.",
+      link: "Read more »"
     },
     {
-      title: "We are here near you",
-      description: "Find local support and expertise wherever you are, with our widespread network of agents.",
-      icon: (
-        <svg className="w-12 h-12 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" strokeWidth="2"/>
-          <circle cx="12" cy="9" r="3" strokeWidth="2"/>
-        </svg>
-      )
+      id: 4,
+      title: "Service",
+      image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=250&fit=crop",
+      description: "Service providers must be qualified and professional. Clients pay as agreed. Chika holds no liability for poor service reviews help maintain trusted, quality providers.",
+      link: "Read more »"
     }
   ];
 
+  const services = [
+    {
+      icon: "👨‍💻",
+      title: "SELL",
+      description: "Turn your items into income on Chika Online Market reach thousands of buyers, post easily, and sell fast with confidence."
+    },
+    {
+      icon: "🔧",
+      title: "BUY",
+      description: "Shop your favorite products on Chika Online Market affordable prices, trusted sellers, fast delivery, and a secure shopping experience every time."
+    },
+    {
+      icon: "💻",
+      title: "RENT",
+      description: "Need something temporarily? Rent it easily on Chika Online Market affordable, flexible, and reliable solutions delivered to your doorstep."
+    },
+    {
+      icon: "📱",
+      title: "SERVICE",
+      description: "LGet expert services on Chika Online Market home repairs, cleaning, tech support, and more, delivered by trusted professionals near you."
+    }
+  ];
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % Math.ceil(carouselItems.length / getItemsPerSlide()));
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + Math.ceil(carouselItems.length / getItemsPerSlide())) % Math.ceil(carouselItems.length / getItemsPerSlide()));
+  };
+
+  const getItemsPerSlide = () => {
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth >= 1024) return 4;
+      if (window.innerWidth >= 768) return 2;
+      return 1;
+    }
+    return 4;
+  };
+
+  const [itemsPerSlide, setItemsPerSlide] = useState(4);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setItemsPerSlide(getItemsPerSlide());
+      setCurrentSlide(0);
+    };
+
+    if (typeof window !== 'undefined') {
+      setItemsPerSlide(getItemsPerSlide());
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }
+  }, []);
+
   return (
-    <div className="px-4 py-16 bg-gray-50 text-center">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Image Column */}
-          <div className="space-y-4">
-            <img 
-              src={rent22}
-              alt="Modern house exterior" 
-              className="w-full h-auto rounded-lg shadow-lg object-cover"
-            />
-            <img 
-              src={rent11}
-              alt="Modern house with garden" 
-              className="w-full h-auto rounded-lg shadow-lg object-cover ml-auto lg:w-5/6"
-            />
-          </div>
+    <div className="bg-gray-50 py-16">
+      <div className="container mx-auto px-4">
+        
+        {/* Services Section */}
+        <div className="text-center mb-16">
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">
+            LOOKING FOR RENT. BUY. SELL. SERVE. ALL IN ONE PLACE
+          </h2>
+          <p className="text-gray-600 max-w-3xl mx-auto text-sm lg:text-base leading-relaxed">
+            Highlights the four key functions your platform provides in one convenient location. 
+            Emphasizes that users can find everything from products to services on your platform.
+          </p>
+        </div>
 
-          {/* Content Column */}
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <h2 className="text-3xl text-center font-bold text-gray-900">
-                Welcome to <span className="text-red-500">@company name</span>, With all conveniences.
-              </h2>
+        {/* Services Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+          {services.map((service, index) => (
+            <div key={index} className="text-center group">
+              {/* Icon Circle */}
+              <div className="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-green-600 transition-colors duration-300">
+                <div className="text-3xl text-white">
+                  {service.icon === "👨‍💻" && (
+                    <div className="w-10 h-10 bg-white rounded-sm flex items-center justify-center">
+                      <span className="text-green-500 font-bold text-lg">R</span>
+                    </div>
+                  )}
+                  {service.icon === "🔧" && (
+                    <div className="w-10 h-10 bg-white rounded-sm flex items-center justify-center">
+                      <span className="text-green-500 font-bold text-lg">B</span>
+                    </div>
+                  )}
+                  {service.icon === "💻" && (
+                    <div className="w-10 h-10 bg-white rounded-sm flex items-center justify-center">
+                      <span className="text-green-500 font-bold text-lg">R</span>
+                    </div>
+                  )}
+                  {service.icon === "📱" && (
+                    <div className="w-10 h-10 bg-white rounded-sm flex items-center justify-center">
+                      <span className="text-green-500 font-bold text-lg">S</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              {/* Service Title */}
+              <h3 className="text-lg font-bold text-gray-800 mb-3 tracking-wide">
+                {service.title}
+              </h3>
+              
+              {/* Service Description */}
+              <p className="text-gray-600 text-sm leading-relaxed px-2">
+                {service.description}
+              </p>
             </div>
+          ))}
+        </div>
 
-            <div className="grid sm:grid-cols-2 gap-8">
-              {features.map((feature, index) => (
-                <div key={index} className="space-y-4">
-                  <div className="inline-block">
-                    {feature.icon}
+        {/* Carousel Section */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-8">
+             TERMS AND CONDITIONS
+          </h2>
+        </div>
+
+        {/* Carousel Container */}
+        <div className="relative">
+          <div className="overflow-hidden">
+            <div 
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{
+                transform: `translateX(-${currentSlide * (100 / Math.ceil(carouselItems.length / itemsPerSlide))}%)`
+              }}
+            >
+              {carouselItems.map((item, index) => (
+                <div 
+                  key={item.id}
+                  className={`flex-shrink-0 px-3 ${
+                    itemsPerSlide === 1 ? 'w-full' :
+                    itemsPerSlide === 2 ? 'w-1/2' :
+                    'w-1/4'
+                  }`}
+                >
+                  <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                    {/* Image */}
+                    <div className="h-48 bg-gray-200 overflow-hidden">
+                      <img 
+                        src={item.image} 
+                        alt={item.title}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    
+                    {/* Content */}
+                    <div className="p-6">
+                      <h3 className="text-lg font-bold text-gray-800 mb-3 hover:text-green-500 transition-colors cursor-pointer">
+                        {item.title}
+                      </h3>
+                      
+                      {/* Meta Info */}
+                      <div className="flex items-center text-xs text-gray-500 mb-3 space-x-4">
+                        <div className="flex items-center">
+                          <Calendar size={12} className="mr-1" />
+                          <span>{item.date}</span>
+                        </div>
+                        <div className="flex items-center">
+                          <MessageCircle size={12} className="mr-1" />
+                          <span>{item.comments}</span>
+                        </div>
+                      </div>
+                      
+                      {/* Description */}
+                      <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                        {item.description}
+                      </p>
+                      
+                      {/* Read More Link */}
+                      <a 
+                        href="#" 
+                        className="text-green-500 text-sm font-medium hover:text-green-600 transition-colors"
+                      >
+                        {item.link}
+                      </a>
+                    </div>
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-600">
-                    {feature.description}
-                  </p>
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* Navigation Arrows */}
+          <button 
+            onClick={prevSlide}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-gray-50"
+            disabled={currentSlide === 0}
+          >
+            <ChevronLeft size={20} className={`${currentSlide === 0 ? 'text-gray-300' : 'text-gray-600'}`} />
+          </button>
+          
+          <button 
+            onClick={nextSlide}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-gray-50"
+            disabled={currentSlide >= Math.ceil(carouselItems.length / itemsPerSlide) - 1}
+          >
+            <ChevronRight size={20} className={`${currentSlide >= Math.ceil(carouselItems.length / itemsPerSlide) - 1 ? 'text-gray-300' : 'text-gray-600'}`} />
+          </button>
+
+          {/* Dots Indicator */}
+          <div className="flex justify-center mt-8 space-x-2">
+            {Array.from({ length: Math.ceil(carouselItems.length / itemsPerSlide) }).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  currentSlide === index ? 'bg-green-500' : 'bg-gray-300 hover:bg-gray-400'
+                }`}
+              />
+            ))}
           </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default FeaturePage;
+}

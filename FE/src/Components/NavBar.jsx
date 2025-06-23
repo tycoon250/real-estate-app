@@ -5,6 +5,7 @@ import { DropdownMenu } from "./dropdown-menu";
 import { MobileMenu } from "./mobile-menu";
 import { useAuth } from "../hooks/useAuth";
 import { UserMenu } from "./user-menu";
+import Logo from "../Assets/Logo.png"
 
 const CATEGORIES = ["Available", "Pending", "Sold", "Rented", "Under Construction", "For Sale", "Rental"]
 
@@ -72,7 +73,9 @@ export const Navbar = () => {
     >
       <nav className="mx-auto flex max-w-7xl justify-between px-4 py-4">
         <div className="flex items-center gap-12">
-          <Link to="/" className="text-xl font-bold">[logo]</Link>
+          <Link to="/" className="text-xl font-bold">
+            <img src={Logo} alt="Logo" className="h-20" />
+          </Link>
 
           <div className="flex-1 max-w-[70%] overflow-hidden relative">
             {/* Scroll Shadows */}

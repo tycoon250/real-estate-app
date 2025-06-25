@@ -110,7 +110,7 @@ export default function ServicesCarouselSection() {
           {services.map((service, index) => (
             <div key={index} className="text-center group">
               {/* Icon Circle */}
-              <div className="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-green-600 transition-colors duration-300">
+              <div className="w-24 h-24 bg-green-800 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-green-600 transition-colors duration-300">
                 <div className="text-3xl text-white">
                   {service.icon === "👨‍💻" && (
                     <div className="w-10 h-10 bg-white rounded-sm flex items-center justify-center">

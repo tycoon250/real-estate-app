@@ -116,7 +116,7 @@ const ContactForm = () => {
               <div className="pt-4">
                 <button
                   onClick={handleSubmit}
-                  className="bg-slate-700 hover:bg-slate-800 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-slate-300"
+                  className="bg-orange-100 text-dack font-semibold px-8 py-4 rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-slate-300"
                 >
                   Send Message
                 </button>

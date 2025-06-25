@@ -227,7 +227,7 @@ export const CategoryShowcase = () => {
                     </div>
                     <Link
                       to={items[0]?.href || "#"}
-                      className="text-sm text-blue-600 font-medium hover:underline"
+                      className="bg-orange-100 hover:bg-green-800 text-dack font-semibold px-6 py-2 rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-slate-300"
                     >
                       Shop now
                     </Link>

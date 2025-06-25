@@ -4,7 +4,7 @@ import { Plus, Minus } from 'lucide-react';
 const faqs = [
   {
     question: 'What services do you offer?',
-    answer: 'We offer a comprehensive range of real estate services including property listings, valuations, property management, investment advisory, legal assistance, and consultation services.',
+    answer: 'We offer a comprehensive range of chika online services including property listings, valuations, property management, investment advisory, legal assistance, and consultation services.',
   },
   {
     question: 'How do I schedule a property viewing?',

@@ -101,14 +101,24 @@ const HomePage = () => {
                       </div> */}
 
                       <div className="flex flex-col">
-                        <label className="mb-2 text-sm text-white font-bold">Name</label>
+                        <label className="">Name</label>
                         <input
                         type="text"
                         placeholder="Name"
-                        className="p-2 border rounded-md border-gray-300 text-gray-800 "
+                        className="absolute bottom-12 left-1/2 transform -translate-x-1/2 bg-white text-black px-4 py-2 rounded-full shadow-lg hover:bg-gray-200 transition "
                         value={filters.location}
                         onChange={(e) => setFilters({ ...filters, location: e.target.value })}
                         />
+                        <div className="flex flex-col">
+                        <label className="mb-2 text-sm text-white font-bold">&nbsp;</label>
+                        <button
+                        type="submit"
+                        className="absolute bottom-12  left-1/3  transform-translate-x-1/2 bg-white text-black px-14 py-2 rounded-full shadow-lg transition"
+                        >
+                        <Search className="h-5 w-5" />
+                        <span>Search </span>
+                        </button>
+                      </div>
                       </div>
 
                       {/* <div className="flex flex-col">
@@ -150,16 +160,16 @@ const HomePage = () => {
                         />
                       </div> */}
 
-                      <div className="flex flex-col">
+                      {/* <div className="flex flex-col">
                         <label className="mb-2 text-sm text-white font-bold">&nbsp;</label>
                         <button
                         type="submit"
-                        className="p-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 w-full"
+                        className="absolute bottom-12 transform -translate-x-1/2 bg-white text-black px-14 py-2 rounded-full shadow-lg transition"
                         >
                         <Search className="h-5 w-5" />
                         <span>Search </span>
                         </button>
-                      </div>
+                      </div> */}
                       </form>
                     </div>
                     </div>

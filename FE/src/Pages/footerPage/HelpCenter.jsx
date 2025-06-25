@@ -82,12 +82,12 @@ function HelpCenter() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="bg-blue-600 py-16">
+      <div className="bg-orange-100 py-16">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-white mb-6">How can we help you?</h1>
+            <h1 className="text-4xl font-bold text-dack mb-6">How can we help you?</h1>
             <div className="max-w-2xl mx-auto relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-green-800" />
               <input
                 type="text"
                 placeholder="Search for answers..."
@@ -102,21 +102,21 @@ function HelpCenter() {
       <div className="max-w-7xl mx-auto px-4 -mt-8">
         <div className="bg-white rounded-xl shadow-lg grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
           <div className="flex items-center p-4 hover:bg-gray-50 rounded-lg transition cursor-pointer">
-            <MessageSquare className="h-8 w-8 text-blue-600 mr-4" />
+            <MessageSquare className="h-8 w-8 text-green-800 mr-4" />
             <div>
               <h3 className="font-semibold text-gray-900">Live Chat</h3>
               <p className="text-sm text-gray-600">Chat with our support team</p>
             </div>
           </div>
           <div className="flex items-center p-4 hover:bg-gray-50 rounded-lg transition cursor-pointer">
-            <Phone className="h-8 w-8 text-blue-600 mr-4" />
+            <Phone className="h-8 w-8 text-green-800 mr-4" />
             <div>
               <h3 className="font-semibold text-gray-900">Call Us</h3>
-              <p className="text-sm text-gray-600">+1 (555) 123-4567</p>
+              <p className="text-sm text-gray-600">+250 789 355 507</p>
             </div>
           </div>
           <div className="flex items-center p-4 hover:bg-gray-50 rounded-lg transition cursor-pointer">
-            <Clock className="h-8 w-8 text-blue-600 mr-4" />
+            <Clock className="h-8 w-8 text-green-800 mr-4" />
             <div>
               <h3 className="font-semibold text-gray-900">Schedule a Meeting</h3>
               <p className="text-sm text-gray-600">Book time with an agent</p>
@@ -175,18 +175,18 @@ function HelpCenter() {
           </div>
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <div className="bg-gray-800 p-6 rounded-xl">
-              <Mail className="h-8 w-8 text-blue-400 mb-4" />
+              <Mail className="h-8 w-8 text-green-800 mb-4" />
               <h3 className="text-xl font-semibold text-white mb-2">Email Support</h3>
               <p className="text-gray-400 mb-4">Get in touch with our support team for detailed assistance.</p>
-              <button className="flex items-center text-blue-400 hover:text-blue-300 transition">
+              <button className="flex items-center text-green-800 hover:text-blue-300 transition">
                 Send email <ArrowRight className="h-4 w-4 ml-2" />
               </button>
             </div>
             <div className="bg-gray-800 p-6 rounded-xl">
-              <Users className="h-8 w-8 text-blue-400 mb-4" />
+              <Users className="h-8 w-8 text-green-800 mb-4" />
               <h3 className="text-xl font-semibold text-white mb-2">Visit an Office</h3>
               <p className="text-gray-400 mb-4">Meet with our agents in person at one of our locations.</p>
-              <button className="flex items-center text-blue-400 hover:text-blue-300 transition">
+              <button className="flex items-center text-green-800 hover:text-blue-300 transition">
                 Find nearest office <ArrowRight className="h-4 w-4 ml-2" />
               </button>
             </div>

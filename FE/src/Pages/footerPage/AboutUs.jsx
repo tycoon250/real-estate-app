@@ -17,7 +17,7 @@ function AboutUs() {
         <div className="relative max-w-7xl mx-auto px-4 h-full flex items-center">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Building Trust Through Excellence in Real Estate
+              Building Trust Through Excellence in Chika Online Market
             </h1>
             <p className="text-xl text-gray-200 mb-8">
               With over two decades of experience, we've helped thousands of families find their perfect home.
@@ -31,28 +31,28 @@ function AboutUs() {
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8">
           <div className="text-center">
             <div className="flex justify-center mb-4">
-              <Home className="h-8 w-8 text-blue-600" />
+              <Home className="h-8 w-8 text-green-800" />
             </div>
             <div className="text-3xl font-bold text-gray-900 mb-2">2,500+</div>
             <div className="text-gray-600">Properties Sold</div>
           </div>
           <div className="text-center">
             <div className="flex justify-center mb-4">
-              <Users className="h-8 w-8 text-blue-600" />
+              <Users className="h-8 w-8 text-green-800 " />
             </div>
             <div className="text-3xl font-bold text-gray-900 mb-2">15,000+</div>
             <div className="text-gray-600">Happy Clients</div>
           </div>
           <div className="text-center">
             <div className="flex justify-center mb-4">
-              <Star className="h-8 w-8 text-blue-600" />
+              <Star className="h-8 w-8 text-green-800" />
             </div>
             <div className="text-3xl font-bold text-gray-900 mb-2">4.9/5</div>
             <div className="text-gray-600">Client Rating</div>
           </div>
           <div className="text-center">
             <div className="flex justify-center mb-4">
-              <Award className="h-8 w-8 text-blue-600" />
+              <Award className="h-8 w-8 text-green-800" />
             </div>
             <div className="text-3xl font-bold text-gray-900 mb-2">20+</div>
             <div className="text-gray-600">Years Experience</div>
@@ -67,26 +67,26 @@ function AboutUs() {
             <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
               <p className="text-gray-600 mb-6">
-                Founded in 2003, Premier Estates has grown from a small local agency to one of the most trusted names in real estate. Our journey has been built on a foundation of integrity, expertise, and unwavering commitment to our clients.
+                Founded in 2025, Premier chika has grown from a small local agency to one of the most trusted names in chika online markert. Our journey has been built on a foundation of integrity, expertise, and unwavering commitment to our clients.
               </p>
               <p className="text-gray-600 mb-8">
-                We believe that finding the perfect property is about more than just four walls and a roof – it's about finding a place where memories will be made and dreams can flourish.
+                We believe that finding the perfect property is about more than just four walls and a roof it's about finding a place where memories will be made and dreams can flourish.
               </p>
               <div className="grid grid-cols-2 gap-6">
                 <div className="flex items-center">
-                  <Building2 className="h-5 w-5 text-blue-600 mr-2" />
+                  <Building2 className="h-5 w-5 text-green-800 mr-2" />
                   <span className="text-gray-700">Full Service Agency</span>
                 </div>
                 <div className="flex items-center">
-                  <Clock className="h-5 w-5 text-blue-600 mr-2" />
+                  <Clock className="h-5 w-5 text-green-800 mr-2" />
                   <span className="text-gray-700">24/7 Support</span>
                 </div>
                 <div className="flex items-center">
-                  <MapPin className="h-5 w-5 text-blue-600 mr-2" />
+                  <MapPin className="h-5 w-5 text-green-800 mr-2" />
                   <span className="text-gray-700">Local Expertise</span>
                 </div>
                 <div className="flex items-center">
-                  <Star className="h-5 w-5 text-blue-600 mr-2" />
+                  <Star className="h-5 w-5 text-green-800 mr-2" />
                   <span className="text-gray-700">Premium Service</span>
                 </div>
               </div>
@@ -113,7 +113,7 @@ function AboutUs() {
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Meet Our Leadership Team</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Our experienced team of real estate professionals is dedicated to providing exceptional service and expertise to every client.
+              Our experienced team of chika online professionals is dedicated to providing exceptional service and expertise to every client.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -143,7 +143,7 @@ function AboutUs() {
                 <div className="p-6">
                   <h3 className="text-xl font-semibold text-gray-900 mb-1">{member.name}</h3>
                   <p className="text-gray-600 mb-4">{member.role}</p>
-                  <button className="text-blue-600 font-medium flex items-center hover:text-blue-700">
+                  <button className="text-green-800 font-medium flex items-center hover:text-blue-700">
                     View Profile <ArrowRight className="h-4 w-4 ml-1" />
                   </button>
                 </div>
@@ -156,21 +156,21 @@ function AboutUs() {
       {/* Contact Section */}
       <div className="py-20">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="bg-blue-600 rounded-2xl p-8 md:p-12">
+          <div className="bg-orange-100 rounded-2xl p-8 md:p-12">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-white mb-4">Ready to Start Your Journey?</h2>
-              <p className="text-blue-100 max-w-2xl mx-auto">
-                Whether you're looking to buy, sell, or invest, our team is here to help you achieve your real estate goals.
+              <h2 className="text-3xl font-bold text-dack mb-4">Ready to Start Your Journey?</h2>
+              <p className="text-dack max-w-2xl mx-auto">
+                Whether you're looking to buy, sell, or invest, our team is here to help you achieve your chika online market goals.
               </p>
             </div>
             <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-              <div className="flex items-center justify-center space-x-4 text-white">
+              <div className="flex items-center justify-center space-x-4 text-dach">
                 <Phone className="h-6 w-6" />
-                <span className="text-lg">+1 (555) 123-4567</span>
+                <span className="text-lg">+250 789 355 507</span>
               </div>
-              <div className="flex items-center justify-center space-x-4 text-white">
+              <div className="flex items-center justify-center space-x-4 text-dack">
                 <Mail className="h-6 w-6" />
-                <span className="text-lg">contact@premierestate.com</span>
+                <span className="text-lg">chikacare26@gmail.com</span>
               </div>
             </div>
           </div>

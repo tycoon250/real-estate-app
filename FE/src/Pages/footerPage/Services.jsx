@@ -23,19 +23,19 @@ const services = [
   {
     icon: Calculator,
     title: 'Investment Advisory',
-    description: 'Expert guidance on real estate investments, market analysis, and portfolio diversification strategies.',
+    description: 'Expert guidance on chika online market investments, market analysis, and portfolio diversification strategies.',
     image: 'https://images.unsplash.com/photo-1554469384-e58fac16e23a?auto=format&fit=crop&q=80&w=1200'
   },
   {
     icon: FileText,
     title: 'Legal Assistance',
-    description: 'Professional support for all real estate legal matters, from contracts to closing procedures.',
+    description: 'Professional support for all chika online market legal matters, from contracts to closing procedures.',
     image: 'https://images.unsplash.com/photo-1575517111478-7f6afd0973db?auto=format&fit=crop&q=80&w=1200'
   },
   {
     icon: Users,
     title: 'Consultation Services',
-    description: 'Personalized consultation sessions with our experienced real estate professionals.',
+    description: 'Personalized consultation sessions with our experienced chika online market professionals.',
     image: 'https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?auto=format&fit=crop&q=80&w=1200'
   }
 ];
@@ -49,7 +49,7 @@ function Services() {
           Our Services
         </h1>
         <p className="mt-4 text-xl text-gray-600 max-w-3xl mx-auto">
-          Comprehensive real estate solutions tailored to meet your property needs, whether you're buying, selling, or investing.
+          Comprehensive chika online solutions tailored to meet your property needs, whether you're buying, selling, or investing.
         </p>
       </div>
 
@@ -78,7 +78,7 @@ function Services() {
                 <p className="text-gray-600">
                   {service.description}
                 </p>
-                <button className="mt-4 inline-flex items-center text-blue-600 hover:text-blue-700 font-medium">
+                <button className="mt-4 inline-flex items-center text-green-800 hover:text-blue-700 font-medium">
                   Learn more
                   <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -91,14 +91,14 @@ function Services() {
 
         {/* Call to Action */}
         <div className="mt-16 text-center">
-          <div className="bg-blue-600 rounded-2xl p-8 sm:p-12">
-            <h2 className="text-3xl font-bold text-white mb-4">
+          <div className="bg-orange-100 rounded-2xl p-8 sm:p-12">
+            <h2 className="text-3xl font-bold text-dack mb-4">
               Ready to Get Started?
             </h2>
-            <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
-              Connect with our team of real estate experts today and discover how we can help you achieve your property goals.
+            <p className="text-dack mb-8 max-w-2xl mx-auto">
+              Connect with our team of chika online market experts today and discover how we can help you achieve your property goals.
             </p>
-            <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors duration-300">
+            <button className="bg-green-800 text-dack px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors duration-300">
               Contact Us Now
             </button>
           </div>

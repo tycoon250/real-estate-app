@@ -3,10 +3,10 @@ import { Calendar, ArrowRight } from 'lucide-react';
 
 const newsItems = [
   {
-    title: 'Market Trends: Real Estate Prices Soar in Prime Locations',
+    title: 'Market Trends: Chika online Prices Soar in Prime Locations',
     date: '2025-03-15',
     image: 'https://images.unsplash.com/photo-1560520031-3a4dc4e9de0c?auto=format&fit=crop&q=80&w=1200',
-    excerpt: 'Latest market analysis reveals significant price increases in prime real estate locations, driven by growing demand and limited inventory.',
+    excerpt: 'Latest market analysis reveals significant price increases in prime chika online locations, driven by growing demand and limited inventory.',
   },
   {
     title: 'New Luxury Development Project Announced',
@@ -18,7 +18,7 @@ const newsItems = [
     title: 'Investment Opportunities in Emerging Markets',
     date: '2025-03-05',
     image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=1200',
-    excerpt: 'Discover promising investment opportunities in emerging real estate markets with high growth potential.',
+    excerpt: 'Discover promising investment opportunities in emerging chika online markets with high growth potential.',
   },
 ];
 
@@ -49,7 +49,7 @@ function News() {
                   </div>
                   <h2 className="text-2xl font-bold text-gray-900 mb-4">{item.title}</h2>
                   <p className="text-gray-600 mb-4">{item.excerpt}</p>
-                  <button className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium">
+                  <button className="inline-flex items-center text-green-80 hover:text-blue-700 font-medium">
                     Read more
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </button>

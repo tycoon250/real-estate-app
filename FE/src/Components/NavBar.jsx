@@ -7,7 +7,7 @@ import { useAuth } from "../hooks/useAuth";
 import { UserMenu } from "./user-menu";
 import Logo from "../Assets/Logo.png"
 
-const CATEGORIES = ["Available", "Pending", "Sold", "Rented", "Under Construction", "For Sale", "Rental"]
+const CATEGORIES = ["Product","For Buy", "For Sale", "Rental", "Service", "About Us", "Help Center", ]
 
 export const Navbar = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -81,12 +81,12 @@ export const Navbar = () => {
             {/* Scroll Shadows */}
            
 
-            {/* Scroll Buttons */}
+            {/* Scroll Buttons */} 
             <button onClick={() => scrollNav("left")} className="absolute left-0 z-20 h-full px-2">
-              {/* <ChevronLeft className="w-5 h-5 text-gray-500" /> */}
+              <ChevronLeft className="w-5 h-5 text-gray-500" />
             </button>
             <button onClick={() => scrollNav("right")} className="absolute right-0 z-20 h-full px-2">
-              {/* <ChevronRight className="w-5 h-5 text-gray-500" /> */}
+              <ChevronRight className="w-5 h-5 text-gray-500" />
             </button>
 
             {/* Scrollable Category Bar */}

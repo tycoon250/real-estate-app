@@ -15,13 +15,14 @@ import { sellerRouter } from "./routes/sellerRouter.js";
 import { otherRoute } from "./routes/otherRoute.js";
 import './root.config.js'
 
-
+const FE_LINK = process.env.FE_LINK || "http://localhost:3000";
+const ADMIN_FE_LINK = process.env.ADMIN_FE_LINK || "http://localhost:5173";
 dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:5173", "http://localhost:5174" ],
+    origin: [FE_LINK, ADMIN_FE_LINK ],
     credentials: true,
   })
 );
@@ -51,7 +52,7 @@ app.use("/api/contact", otherRoute);
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:3000", "http://localhost:5173"],
+    origin: [FE_LINK, ADMIN_FE_LINK],
     credentials: true,
   },
 });

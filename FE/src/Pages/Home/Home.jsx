@@ -16,7 +16,7 @@ const Home = () => {
       <CategoryShowcase />
       {/* <ProductPage /> */}
       <FeaturePage />
-      <LocationPage />
+      {/* <LocationPage /> */}
       <LandingPage />
       {/* <TestimonialsPage /> */}
       <PartnersPage />

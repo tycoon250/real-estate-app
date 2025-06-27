@@ -155,7 +155,7 @@ const SellerApplication = () => {
           once your application has been processed.
         </p>
         <motion.div
-          className="w-full max-w-sm mx-auto"
+          className="w-full from-orange-500 to-orange-100 max-w-sm mx-auto"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.5 }}
@@ -182,15 +182,15 @@ const SellerApplication = () => {
 
   return (
     <motion.div
-      className="w-full max-w-2xl glass-panel overflow-hidden"
+      className="w-full max-w-2xl from-orange-500 to-orange-100 glass-panel overflow-hidden"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="p-8">
-        <div className="flex flex-col items-center mb-8">
+        <div className="flex flex-col from-orange-500 to-orange-100 items-center mb-8">
           <AnimatedLogo />
-          <h1 className="text-2xl sm:text-3xl font-bold text-foreground text-center">
+          <h1 className="text-2xl sm:text-3xl  font-bold text-foreground text-center">
             Seller Application
           </h1>
           <p className="text-foreground/70 text-center mt-2 max-w-md">
@@ -464,7 +464,7 @@ const SellerApplication = () => {
       </div>
 
       <motion.div
-        className="bg-gradient-to-tr from-blue-500/5 to-blue-400/10 p-4 border-t border-border/50 text-center text-sm text-foreground/70"
+        className="bg-gradient-to-tr from-orange-500 to-orange-100 p-4 border-t border-border/50 text-center text-sm text-foreground/70"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5, duration: 0.5 }}

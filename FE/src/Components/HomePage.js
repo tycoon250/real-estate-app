@@ -58,7 +58,7 @@ const HomePage = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="relative h-[100vh] overflow-hidden mt-[-70px]">
+      <div className="relative h-[100vh] overflow-hidden mt-[-112px]">
         {/* Slideshow */}
         <div className="absolute inset-0">
           {slides.map((slide, index) => (
@@ -84,7 +84,7 @@ const HomePage = () => {
         </div>
           <div className="absolute top-2/3 left-1/2  transform -translate-x-1/2 -translate-y-1/4 px-4 sm:px-6 lg:px-10">
             <div className="max-w-4xl mx-auto text-white">
-                    <div className="p-6 sm:p-10 bg-white/30 backdrop-blur-md  rounded-3xl shadow-2xl border border-white/20">
+                    <div className="p-6 sm:p-10 bg-white/30 backdrop-orange-md  rounded-3xl shadow-2xl border border-white/20">
                       <form onSubmit={handleSearch} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 sm:gap-6">
                       {/* <div className="flex flex-col">
                         <label className="mb-2 text-sm text-white font-bold">Looking for</label>
@@ -101,7 +101,7 @@ const HomePage = () => {
                       </div> */}
 
                       <div className="flex flex-col">
-                        <label className="">Name</label>
+                        <label className="">&nbsp;</label>
                         <input
                         type="text"
                         placeholder="Name"
@@ -109,16 +109,17 @@ const HomePage = () => {
                         value={filters.location}
                         onChange={(e) => setFilters({ ...filters, location: e.target.value })}
                         />
-                        <div className="flex flex-col">
-                        <label className="mb-2 text-sm text-white font-bold">&nbsp;</label>
+                        
+                      </div>
+                      <div className="flex flex-col">
+                        <label className="">&nbsp;</label>
                         <button
                         type="submit"
-                        className="absolute bottom-12  left-1/3  transform-translate-x-1/2 bg-white text-black px-14 py-2 rounded-full shadow-lg transition"
+                        className="absolute mx-8 bottom-12  left-1/2  transform-translate-x-1/2 bg-white text-black px-4 py-2 rounded-full shadow-lg hover:bg-gray-200 transition"
                         >
-                        <Search className="h-5 w-5" />
+                        {/* <Search className="" /> */}
                         <span>Search </span>
                         </button>
-                      </div>
                       </div>
 
                       {/* <div className="flex flex-col">
@@ -176,12 +177,12 @@ const HomePage = () => {
                   </div>
 
                   {/* Scroll Button */}
-        <button
+        {/* <button
           onClick={scrollToNextSection}
           className="absolute bottom-12 left-1/2 transform -translate-x-1/2 bg-white text-black px-4 py-2 rounded-full shadow-lg hover:bg-gray-200 transition"
         >
           Scroll Down
-        </button>
+        </button> */}
       </div>
     </div>
   );

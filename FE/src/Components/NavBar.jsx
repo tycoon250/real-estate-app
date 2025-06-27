@@ -108,7 +108,7 @@ export const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <Link to="/sell" className="hidden  lg:block text-sm font-medium text-white hover:text-blue-700">Sell</Link>
+          <Link to="/sell" className="hidden  lg:block text-sm font-medium text-dack hover:text-orange-100">Sell</Link>
 
           {!loading && (
             user ? (
@@ -125,14 +125,14 @@ export const Navbar = () => {
             ) : (
               <Link
                 to="/auth"
-                className="hidden  lg:block text-sm font-medium text-white hover:text-blue-700"
+                className="hidden  lg:block text-sm font-medium text-dack hover:text-orange-100"
               >
                 Sign in
               </Link>
             )
           )}
 
-          <button className="lg:hidden p-1 hover:bg-gray-100 text-white rounded-lg" onClick={() => setIsMobileMenuOpen(true)}>
+          <button className="lg:hidden p-1 hover:bg-orange-100 text-white rounded-lg" onClick={() => setIsMobileMenuOpen(true)}>
             <Menu className="h-6 w-6" />
           </button>
         </div>

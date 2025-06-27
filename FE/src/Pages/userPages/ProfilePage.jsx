@@ -340,7 +340,7 @@ const UpdateProfile = () => {
                       </>
                     ) : (
                       <>
-                        <Save className="h-5 w-5" />
+                        <Save className="h-5 w-5 " />
                         Save Changes
                       </>
                     )}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { MapPin, Home, Users, Star, Award, Building2, Clock, Phone, Mail, ArrowRight } from 'lucide-react';
+import Hirwa from '../../Assets/HIRWA.png'
 
 function AboutUs() {
   return (
@@ -119,19 +120,19 @@ function AboutUs() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                name: "Sarah Johnson",
-                role: "CEO & Founder",
-                image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-              },
-              {
-                name: "Michael Chen",
+                name: "Yvette UWASE",
                 role: "Head of Sales",
-                image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                image: ""
               },
               {
-                name: "Emily Rodriguez",
-                role: "Operations Director",
-                image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                name: "Herbert HESHIMA",
+                role: "Designer",
+                image: ""
+              },
+              {
+                name: "Jeremie JEREMIE",
+                role: "Designer",
+                image: Hirwa,
               }
             ].map((member, index) => (
               <div key={index} className="bg-white rounded-lg overflow-hidden shadow-lg">

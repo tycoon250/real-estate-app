@@ -111,7 +111,7 @@ const Sell = () => {
 
       <main className="flex-grow flex flex-col items-center justify-center py-12 px-4">
         <motion.div
-          className="w-full max-w-4xl mx-auto mb-12 text-center"
+          className="w-full max-w-4xl from-orange-500 to-orange-100 mx-auto mb-12 text-center"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
@@ -135,7 +135,7 @@ const Sell = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
               <div className="flex items-center mb-4">
-                <div className="h-8 w-8 rounded-lg bg-gradient-to-tr from-blue-500 to-blue-400 flex items-center justify-center text-white font-bold text-lg mr-2">
+                <div className="h-8 w-8 rounded-lg bg-gradient-to-tr from-orange-500 to-orange-100 flex items-center justify-center text-white font-bold text-lg mr-2">
                   S
                 </div>
                 <h3 className="text-lg font-semibold text-foreground">
@@ -193,10 +193,10 @@ const Sell = () => {
             <div>
               <h4 className="font-medium mb-4">Contact Us</h4>
               <div className="space-y-2 text-sm text-foreground/70">
-                <p>1234 Market Street, Suite 100</p>
-                <p>San Francisco, CA 94103</p>
-                <p>Email: info@sellerhub.com</p>
-                <p>Phone: (123) 456-7890</p>
+                <p>Chika Online Market</p>
+                <p>Rwanda, Kigali</p>
+                <p>Email: chikacare26@gmail.com</p>
+                <p>Phone: +250 789 355 507</p>
               </div>
             </div>
           </div>

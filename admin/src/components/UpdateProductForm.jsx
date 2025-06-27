@@ -145,12 +145,13 @@ const UpdateProductForm = ({ id }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [currSpecName, setCurSpecName] = useState(''),
   [currSpecVal, setCurSpecVal] = useState('')
+  const API_URL = import.meta.env.VITE_API_URL;
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         setIsLoading(true);
         // Replace with your actual API call
-        const response = await fetch(`http://localhost:5000/api/product/single/${id}`);
+        const response = await fetch(`${API_URL}/api/product/single/${id}`);
         const data = await response.json();
         
         const product = data.product;
@@ -168,11 +169,11 @@ const UpdateProductForm = ({ id }) => {
         });
 
         setDisplayImagePreview(product.displayImage ? 
-          `http://localhost:5000${product.displayImage}` : "");
+          `${API_URL}${product.displayImage}` : "");
         
         const images = Array.isArray(product.image) ? product.image : [];
         setExistingImages(images);
-        setImagesPreviews(images.map((img) => `http://localhost:5000${img}`));
+        setImagesPreviews(images.map((img) => `${API_URL}${img}`));
       } catch (error) {
         console.error("Error fetching product:", error);
         toast.error("Failed to load product data");
@@ -258,7 +259,7 @@ const UpdateProductForm = ({ id }) => {
 
       formDataToSend.append("removedImages", JSON.stringify(removedImages));
       // Replace with your actual API call
-      const response = await fetch(`http://localhost:5000/api/product/update/${id}`, {
+      const response = await fetch(`${API_URL}/api/product/update/${id}`, {
         method: 'PUT',
         body: formDataToSend,
       });

@@ -22,14 +22,14 @@ const SellerProperties = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
   const [selectedStatus, setSelectedStatus] = useState("all");
-  const API_URL = "http://localhost:5000";
+  const API_URL = process.env.REACT_APP_API_URL;
 
   // Memoize the fetch function
   const fetchProducts = useCallback(async ({ queryKey }) => {
     const [_, currentPage, search, status] = queryKey;
     try {
       const { data } = await axios.get(
-        `http://localhost:5000/api/product/seller/all?page=${currentPage}&limit=10${
+        `${API_URL}/api/product/seller/all?page=${currentPage}&limit=10${
           search ? `&search=${search}` : ""
         }${status !== "all" ? `&status=${status}` : ""}`,
         { withCredentials: true }
@@ -54,7 +54,7 @@ const SellerProperties = () => {
   // Delete mutation
   const deleteMutation = useMutation({
     mutationFn: (id) =>
-      axios.delete(`http://localhost:5000/api/product/delete/${id}`),
+      axios.delete(`${API_URL}/api/product/delete/${id}`),
     onMutate: async (deletedId) => {
       // Cancel any outgoing refetches
       await queryClient.cancelQueries(["products"]);

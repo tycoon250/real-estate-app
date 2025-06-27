@@ -25,7 +25,7 @@ import {
 import toast from "react-hot-toast";
 import { useAuthStore } from "@/store/authStore";
 import api from "@/utils/api";
-
+const API_URL = import.meta.env.VITE_API_URL;
 // Define option arrays
 const CATEGORIES = [
   "Electronics",
@@ -180,7 +180,6 @@ const CreateProductForm = () => {
       setDisplayImagePreview(URL.createObjectURL(file));
     }
   };
- console.log(formData.specifications)
   // Handle multiple image upload
   const handleImagesChange = (e) => {
     const files = Array.from(e.target.files || []);
@@ -248,7 +247,7 @@ const CreateProductForm = () => {
     });
 
     try {
-      const response = await api.post("http://localhost:5000/api/product/new", submitData, {
+      const response = await api.post(`${API_URL}/api/product/new`, submitData, {
         withCredentials: true,
       });
   

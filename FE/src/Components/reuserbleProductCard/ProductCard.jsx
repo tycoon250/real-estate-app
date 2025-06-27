@@ -68,7 +68,7 @@ const ProductCard = ({ product, onToggleWishlist, isWishlisted = false }) => {
           <img
             src={`${API_URL}${product.displayImage}` || "/placeholder.svg"}
             alt={product.title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
             onError={(e) => {
               const target = e.target;
               target.src = "/placeholder.svg";

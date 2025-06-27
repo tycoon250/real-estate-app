@@ -10,11 +10,12 @@ function Partners() {
   const [deleteLoading, setDeleteLoading] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
-  const API_URL = "http://localhost:5000";
+  const API_URL = import.meta.env.VITE_API_URL;
+
 
   useEffect(() => {
     fetchPartners();
-  }, []);
+  }, [API_URL]);
 
   const fetchPartners = async () => {
     try {

@@ -9,7 +9,7 @@ const SearchPage = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [results, setResults] = useState([])
   const [wishlist, setWishlist] = useState([])
-  const API_URL = "http://localhost:5000"
+  const API_URL = process.env.REACT_APP_API_URL;
 
   // Parse query parameters from URL
   const queryParams = new URLSearchParams(location.search)
@@ -82,7 +82,7 @@ const SearchPage = () => {
 
           <form onSubmit={handleSearch} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
             <div className="flex flex-col">
-              <label className="mb-1 text-sm text-gray-700 font-medium">Looking for</label>
+              <label className="mb-1 text-sm text-gray-700 font-medium">availability</label>
               <select
                 className="p-2 border rounded-md border-gray-300 text-gray-800 w-full"
                 value={filters.lookingFor}

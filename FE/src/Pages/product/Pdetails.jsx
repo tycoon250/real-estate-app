@@ -16,7 +16,7 @@ const ProductDetails = () => {
   const [wishlist, setWishlist] = useState([]);
   const [isWishlistLoading, setIsWishlistLoading] = useState(false);
   const navigate = useNavigate();
-  const API_URL = "http://localhost:5000";
+  const API_URL = process.env.REACT_APP_API_URL;
 
   // Fetch user's wishlist when component mounts
   useEffect(() => {
@@ -24,7 +24,7 @@ const ProductDetails = () => {
       if (user) {
         try {
           const response = await axios.get(
-            "http://localhost:5000/api/product/wishlist/all",
+            API_URL + "/api/product/wishlist/all",
             { withCredentials: true }
           );
           setWishlist(
@@ -55,7 +55,7 @@ const ProductDetails = () => {
       if (isWishlisted) {
         // Remove from wishlist
         await axios.delete(
-          `http://localhost:5000/api/product/wishlist/remove/${product._id}`,
+           API_URL + `/api/product/wishlist/remove/${product._id}`,
           { withCredentials: true }
         );
         setWishlist((prev) => prev.filter((id) => id !== product._id));
@@ -63,7 +63,7 @@ const ProductDetails = () => {
       } else {
         // Add to wishlist
         await axios.post(
-          "http://localhost:5000/api/product/wishlist/add-to-wishlist",
+           API_URL + "/api/product/wishlist/add-to-wishlist",
           { productId: product._id },
           { withCredentials: true }
         );
@@ -84,7 +84,7 @@ const ProductDetails = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:5000/api/product/details/${slug}`
+           API_URL + `/api/product/details/${slug}`
         );
         setProduct(response.data.product);
       } catch (err) {

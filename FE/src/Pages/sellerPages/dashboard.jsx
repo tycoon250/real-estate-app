@@ -41,12 +41,12 @@ const Dashboard = () => {
       trend: { value: 0, isPositive: false },
     },
   ]);
-
+  const API_URL = process.env.REACT_APP_API_URL;
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [productsRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/product/seller/all", {
+          axios.get(API_URL+"/api/product/seller/all", {
             withCredentials: true,
           }),
         ]);

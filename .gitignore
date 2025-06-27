@@ -29,5 +29,4 @@ next-env.d.ts
 
 /admin/node_modules
 /BE/node_modules
-/BE/uploads
 /client

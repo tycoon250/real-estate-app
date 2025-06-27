@@ -15,8 +15,7 @@ export function MessagesList({ onSelectUser, setLoading, socketReady }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeConversationId, setActiveConversationId] = useState(null);
   const [unreadCounts, setUnreadCounts] = useState({});
-  const API_URL = 'http://localhost:5000'
-
+  const API_URL = import.meta.env.VITE_API_URL;
   const fetchData = async () => {
     setLocalLoading(true);
     setLoading(true);

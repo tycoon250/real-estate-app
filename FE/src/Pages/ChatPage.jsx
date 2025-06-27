@@ -18,7 +18,7 @@ const ChatPage = () => {
   const messageContainerRef = useRef(null)
   const navigate = useNavigate()
   const { user } = useAuth()
-
+  const API_URL = process.env.REACT_APP_API_URL;
   const sortMessages = (msgs) => {
     return msgs.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
   }
@@ -141,7 +141,7 @@ const ChatPage = () => {
               <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
                 {conversation.product.displayImage ? (
                   <img
-                    src={`${"http://localhost:5000"}${conversation.product.displayImage}`}
+                    src={`${API_URL}${conversation.product.displayImage}`}
                     alt={conversation.product.title}
                     className="w-full h-full object-cover"
                   />
@@ -196,7 +196,7 @@ const ChatPage = () => {
                       <div className="w-8 h-8 rounded-full bg-gray-300 flex-shrink-0 mr-2 overflow-hidden">
                         {message.sender.profileImage ? (
                           <img
-                            src={`${"http://localhost:5000"}${message.sender.profileImage}`
+                            src={`${API_URL}${message.sender.profileImage}`
                               || "/placeholder.svg"}
                             alt="Avatar"
                             className="w-full h-full object-cover"
@@ -224,7 +224,7 @@ const ChatPage = () => {
                       <div className="w-8 h-8 rounded-full bg-blue-500 flex-shrink-0 ml-2 overflow-hidden">
                         {user?.profileImage ? (
                           <img
-                            src={`http://localhost:5000${user.profileImage}` || "/placeholder.svg"}
+                            src={`${API_URL}${user.profileImage}` || "/placeholder.svg"}
                             alt="Your avatar"
                             className="w-full h-full object-cover"
                           />

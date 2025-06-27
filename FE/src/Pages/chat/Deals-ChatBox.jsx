@@ -38,7 +38,7 @@ export function DealsChatBox({ selectedUser, setLoading, socketReady }) {
   const inputRef = useRef(null);
   const fileInputRef = useRef(null);
   const { user } = useAuth();
-  const API_URL = 'http://localhost:5000'
+  const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     if (!selectedUser || !socketReady) return;

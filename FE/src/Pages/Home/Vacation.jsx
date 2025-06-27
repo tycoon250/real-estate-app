@@ -14,7 +14,7 @@ const VacationListings = () => {
   const [wishlist, setWishlist] = useState([]);
 
   const ITEMS_PER_PAGE = 12;
-
+  const API_URL = process.env.REACT_APP_API_URL;
   const fetchProducts = useCallback(async (currentPage) => {
     setLoading(true);
     try {
@@ -25,7 +25,7 @@ const VacationListings = () => {
       });
 
       const response = await axios.get(
-        `http://localhost:5000/api/product/all?${queryParams.toString()}`
+        `${API_URL}/api/product/all?${queryParams.toString()}`
       );
       setListings(response.data.products);
       setTotalPages(response.data.pagination.pages);

@@ -41,7 +41,7 @@ const AdminProfile = () => {
   const [section, setSection] = useState("general");
   const [loadingImage, setLoadingImage] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
-  const API_URL = "http://localhost:5000";
+  const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchUserData = async () => {

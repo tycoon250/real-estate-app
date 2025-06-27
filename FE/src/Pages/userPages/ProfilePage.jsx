@@ -26,7 +26,7 @@ const UpdateProfile = () => {
   const [loading, setLoading] = useState(false);
   const [section, setSection] = useState("general"); // "general" or "password"
   const [loadingImage, setLoadingImage] = useState(false);
-  const API_URL = "http://localhost:5000";
+  const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     if (user) {

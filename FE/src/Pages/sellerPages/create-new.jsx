@@ -68,7 +68,7 @@ const CreateProductForm = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { user } = useAuthContext();
-
+  const API_URL = process.env.REACT_APP_API_URL;
   // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -153,7 +153,7 @@ const CreateProductForm = () => {
     });
 
     try {
-      const response = await axios.post("http://localhost:5000/api/product/new", submitData, {
+      const response = await axios.post(API_URL+"/api/product/new", submitData, {
         withCredentials: true,
       });
   

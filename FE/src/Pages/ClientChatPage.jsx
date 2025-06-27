@@ -21,7 +21,7 @@ import {
 import { useAuth } from "../hooks/useAuth";
 
 // Base API configuration
-const API_URL = "http://localhost:5000";
+const API_URL = process.env.REACT_APP_API_URL;
 const API_BASE_URL = `${API_URL}/api/chat`;
 
 // Socket.io connection
@@ -513,7 +513,7 @@ const Index = () => {
                   <div className="w-full h-full rounded-full bg-gray-200 flex items-center justify-center text-lg font-medium text-gray-600 overflow-hidden border border-gray-100">
                     {selectedConversation?.otherParticipant?.profileImage ? (
                       <img
-                        src={`http://localhost:5000${selectedConversation.otherParticipant.profileImage}`}
+                        src={`${API_URL}${selectedConversation.otherParticipant.profileImage}`}
                         alt={selectedConversation.otherParticipant?.name || "Unknown User"}
                         className="w-full h-full object-cover"
                       />

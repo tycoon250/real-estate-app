@@ -1,7 +1,7 @@
 // api/wishlist.js
 import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/product";
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+const API_URL = API_BASE_URL+"/api/product";
 
 export const addToWishlist = async (productId) => {
     try {

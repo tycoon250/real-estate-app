@@ -25,7 +25,7 @@ import {
 import toast from "react-hot-toast";
 import { useAuthStore } from "@/store/authStore";
 import api from "@/utils/api";
-
+const API_URL = process.env.REACT_APP_API_URL;
 // Define option arrays
 const CATEGORIES = [
   "Electronics",
@@ -247,7 +247,7 @@ const CreateProductForm = () => {
     });
 
     try {
-      const response = await api.post("http://localhost:5000/api/product/new", submitData, {
+      const response = await api.post(`${API_URL}/api/product/new`, submitData, {
         withCredentials: true,
       });
   

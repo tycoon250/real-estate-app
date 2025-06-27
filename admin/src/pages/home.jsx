@@ -42,13 +42,13 @@ const Index = () => {
       trend: { value: 0, isPositive: false },
     },
   ]);
-
+  const API_URL = process.env.REACT_APP_API_URL;
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [productsRes, usersRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/product/all"),
-          api.get("http://localhost:5000/api/users/all"),
+          axios.get(API_URL+"/api/product/all"),
+          api.get(API_URL+"/api/users/all"),
         ]);
         setSummaryData([
           {

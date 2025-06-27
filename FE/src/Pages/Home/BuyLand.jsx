@@ -12,7 +12,7 @@ const BuyLand = () => {
   const [listings, setListings] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [wishlist, setWishlist] = useState([]);
-
+  const API_URL = process.env.REACT_APP_API_URL;
   const ITEMS_PER_PAGE = 12;
 
   const fetchProducts = useCallback(async (currentPage) => {
@@ -25,7 +25,7 @@ const BuyLand = () => {
       });
 
       const response = await axios.get(
-        `http://localhost:5000/api/product/all?${queryParams.toString()}`
+        `${API_URL}/api/product/all?${queryParams.toString()}`
       );
       setListings(response.data.products);
       setTotalPages(response.data.pagination.pages);

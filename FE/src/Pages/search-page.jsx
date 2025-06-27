@@ -9,7 +9,7 @@ const SearchPage = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [results, setResults] = useState([])
   const [wishlist, setWishlist] = useState([])
-  const API_URL = "http://localhost:5000"
+  const API_URL = process.env.REACT_APP_API_URL;
 
   // Parse query parameters from URL
   const queryParams = new URLSearchParams(location.search)

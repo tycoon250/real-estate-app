@@ -8,8 +8,8 @@ function SellerApplication() {
   const [error, setError] = useState(null);
   const [processingId, setProcessingId] = useState(null);
   const [selectedApplication, setSelectedApplication] = useState(null);
-  const API_URL = "http://localhost:5000/api/seller";
-  const API_BASE_URL = "http://localhost:5000";
+  const API_BASE_URL = process.env.REACT_APP_API_URL;
+  const API_URL = API_BASE_URL + "/api/seller";
 
   useEffect(() => {
     fetchApplications();

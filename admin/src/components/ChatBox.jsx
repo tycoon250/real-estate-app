@@ -34,7 +34,7 @@ export function ChatBox({ selectedUser, setLoading, socketReady }) {
   const inputRef = useRef(null);
   const fileInputRef = useRef(null);
   const { user } = useAuthStore();
-  const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     if (!selectedUser || !socketReady) return;

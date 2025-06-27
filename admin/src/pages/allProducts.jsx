@@ -22,7 +22,7 @@ const AllProducts = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
   const [selectedStatus, setSelectedStatus] = useState("all");
-  const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL;
   // Memoize the fetch function
   const fetchProducts = useCallback(async ({ queryKey }) => {
     const [_, currentPage, search, status] = queryKey;

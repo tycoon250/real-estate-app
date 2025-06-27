@@ -25,7 +25,7 @@ import {
 import toast from "react-hot-toast";
 import { useAuthStore } from "@/store/authStore";
 import api from "@/utils/api";
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = import.meta.env.VITE_API_URL;
 // Define option arrays
 const CATEGORIES = [
   "Electronics",

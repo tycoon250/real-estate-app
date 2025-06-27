@@ -130,7 +130,7 @@ function AboutUs() {
                 image: ""
               },
               {
-                name: "Jeremie JEREMIE",
+                name: "Hirwa JEREMIE",
                 role: "Designer",
                 image: Hirwa,
               }

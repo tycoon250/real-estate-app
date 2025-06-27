@@ -180,7 +180,6 @@ const CreateProductForm = () => {
       setDisplayImagePreview(URL.createObjectURL(file));
     }
   };
- console.log(formData.specifications)
   // Handle multiple image upload
   const handleImagesChange = (e) => {
     const files = Array.from(e.target.files || []);

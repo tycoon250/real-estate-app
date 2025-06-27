@@ -58,7 +58,7 @@ export const Specifications = ({ specifications }) => {
     <div className="p-6 bg-gray-100 rounded-lg">
       <h3 className="text-lg font-semibold mb-4">Specifications</h3>
       <ul className="list-disc list-inside space-y-2">
-        {Object.entries(specifications).map(([key, value]) => (
+        {Object.entries(specifications? specifications : {})?.map(([key, value]) => (
           <li key={key} className="flex justify-between">
             <span className="text-gray-600">{key}</span>
             <span className="font-medium">{value}</span>

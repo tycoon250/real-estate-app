@@ -15,7 +15,7 @@ function Partners() {
 
   useEffect(() => {
     fetchPartners();
-  }, []);
+  }, [API_URL]);
 
   const fetchPartners = async () => {
     try {

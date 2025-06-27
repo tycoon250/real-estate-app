@@ -46,8 +46,6 @@ const Auth = () => {
       address: userData.address,
     };
 
-    console.log(loginData, registerData);
-
     try {
       let response;
       if (isLogin) {
@@ -58,8 +56,6 @@ const Auth = () => {
         if (response.message === "User created successfully")
           window.location.href = "/";
       }
-
-      console.log("Response:", response); // Log response for debugging
 
       setAlertType("success");
       setAlertMessage(

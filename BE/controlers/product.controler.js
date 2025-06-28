@@ -513,3 +513,49 @@ export const searchProperties = asyncHandler(async (req, res) => {
 
   res.json(properties);
 });
+export const BrowseProperties = asyncHandler(async (req, res) => {
+    const { lookingFor, location, propertyType, propertySize, budget } = req.query,
+    {btype, categoryData,typeData} = req.body
+    const query = {};
+    
+    console.log(btype, categoryData,typeData)
+    // if (location) {
+    //   query.location = { $regex: location, $options: "i" };
+    // }
+  
+    // if (propertyType) {
+    //   query.type = propertyType;
+    // }
+    if (btype) {
+        if (btype == 'type') {
+            query.category = { $in: [categoryData.name] }
+            if (typeData) {
+                query.type = typeData.label 
+            }
+        }else if (btype == 'availability') {
+            query.status = categoryData
+        }
+    }
+    if (budget) {
+      const maxPrice = Number(budget);
+      if (!isNaN(maxPrice)) {
+        query.price = { $lte: maxPrice };
+      }
+    }
+  
+    // if (lookingFor) {
+    //   query.status = lookingFor;
+    // }
+  
+    // Optionally filter by property size (if interpreted as minimum number of beds)
+    // if (propertySize) {
+    //   const minBeds = Number(propertySize);
+    //   if (!isNaN(minBeds)) {
+    //     query.beds = { $gte: minBeds };
+    //   }
+    // }
+    // Execute the query
+    const properties = await Product.find(query).collation({ locale: "en", strength: 2 });
+  
+    res.json(properties);
+  });

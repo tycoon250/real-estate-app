@@ -29,15 +29,16 @@ const Browse = () => {
       typeData;
       if(categoryData){
         typeData = OPTIONS[categoryData.name]?.find((t) => t.id === type)
-        if(!typeData){
-          
+        if(typeData){
+          fetchSearchResults(btype,categoryData,typeData)
         }
         console.log(categoryData, typeData);
       }
+    }else if(btype && btype == 'availability'){
+      fetchSearchResults(btype, category.replace(/-/g, ' '), null)
     }
-    fetchSearchResults(categoryData,type,)
     fetchWishlist()
-  }, [location.search])
+  }, [category,type,btype])
 
   const fetchWishlist = async () => {
     // This would typically fetch the user's wishlist from your API
@@ -45,10 +46,22 @@ const Browse = () => {
     setWishlist([])
   }
 
-  const fetchSearchResults = async () => {
+  const fetchSearchResults = async (btype,categoryData,typeData) => {
     setIsLoading(true)
     try {
-      const response = await fetch(`${API_URL}/api/product/search?${new URLSearchParams(location.search)}`)
+      let options = {
+        method: "post",
+        credentials: "include", // Include cookies for authentication
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          btype,
+          categoryData,
+          typeData: typeData ? typeData : null,
+        }),
+      }
+      const response = await fetch(`${API_URL}/api/product/browse?${new URLSearchParams(location.search)}`,options)
       const data = await response.json()
       setResults(data)
     } catch (error) {
@@ -88,90 +101,91 @@ const Browse = () => {
   return (
     <div className="min-h-screen bg-gray-50 pb-10">
       {/* Search Form Section */}
-      <div className="bg-white shadow-md py-6">
-        <div className="container mx-auto px-4">
-          <h1 className="text-2xl font-bold mb-6">Find Your Perfect Property</h1>
+        <div className="bg-white shadow-md py-6">
+          <div className="container mx-auto px-4">
+            <h1 className="text-2xl font-bold mb-6">Explore Our Wide Range of Products and Services</h1>
+            <p className="text-gray-600 mb-4">Use the filters below to narrow down your search and find the perfect match for your needs.</p>
 
-          <form onSubmit={handleSearch} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
-            <div className="flex flex-col">
-              <label className="mb-1 text-sm text-gray-700 font-medium">availability</label>
-              <select
-                className="p-2 border rounded-md border-gray-300 text-gray-800 w-full"
-                value={filters.lookingFor}
-                onChange={(e) => setFilters({ ...filters, lookingFor: e.target.value })}
-              >
-                <option value="">Choose</option>
-                <option value="Available">Available</option>
-                <option value="For Sale">Buy</option>
-                <option value="Rental">Rent</option>
-              </select>
-            </div>
+            <form onSubmit={handleSearch} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+          <div className="flex flex-col">
+            <label className="mb-1 text-sm text-gray-700 font-medium">Availability</label>
+            <select
+              className="p-2 border rounded-md border-gray-300 text-gray-800 w-full"
+              value={filters.lookingFor}
+              onChange={(e) => setFilters({ ...filters, lookingFor: e.target.value })}
+            >
+              <option value="">Choose</option>
+              <option value="Available">Available</option>
+              <option value="For Sale">Buy</option>
+              <option value="Rental">Rent</option>
+            </select>
+          </div>
 
-            <div className="flex flex-col">
-              <label className="mb-1 text-sm text-gray-700 font-medium">Location</label>
-              <input
-                type="text"
-                placeholder="Enter location"
-                className="p-2 border rounded-md border-gray-300 text-gray-800 w-full"
-                value={filters.location}
-                onChange={(e) => setFilters({ ...filters, location: e.target.value })}
-              />
-            </div>
+          <div className="flex flex-col">
+            <label className="mb-1 text-sm text-gray-700 font-medium">Location</label>
+            <input
+              type="text"
+              placeholder="Enter location"
+              className="p-2 border rounded-md border-gray-300 text-gray-800 w-full"
+              value={filters.location}
+              onChange={(e) => setFilters({ ...filters, location: e.target.value })}
+            />
+          </div>
 
-            <div className="flex flex-col">
-              <label className="mb-1 text-sm text-gray-700 font-medium">Property Type</label>
-              <select
-                className="p-2 border rounded-md border-gray-300 text-gray-800 w-full"
-                value={filters.propertyType}
-                onChange={(e) => setFilters({ ...filters, propertyType: e.target.value })}
-              >
-                <option value="">Select type</option>
-                <option value="House">House</option>
-                <option value="Office">Office</option>
-                <option value="Land">Land</option>
-                <option value="Apartment/Condo">Apartment</option>
-                <option value="Commercial Space">Commercial</option>
-                <option value="Industrial Property">Industrial Property</option>
-              </select>
-            </div>
+          <div className="flex flex-col">
+            <label className="mb-1 text-sm text-gray-700 font-medium">Property Type</label>
+            <select
+              className="p-2 border rounded-md border-gray-300 text-gray-800 w-full"
+              value={filters.propertyType}
+              onChange={(e) => setFilters({ ...filters, propertyType: e.target.value })}
+            >
+              <option value="">Select type</option>
+              <option value="House">House</option>
+              <option value="Office">Office</option>
+              <option value="Land">Land</option>
+              <option value="Apartment/Condo">Apartment</option>
+              <option value="Commercial Space">Commercial</option>
+              <option value="Industrial Property">Industrial Property</option>
+            </select>
+          </div>
 
-            <div className="flex flex-col">
-              <label className="mb-1 text-sm text-gray-700 font-medium">Property size</label>
-              <input
-                type="text"
-                placeholder="Any size"
-                className="p-2 border rounded-md border-gray-300 text-gray-800 w-full"
-                value={filters.propertySize}
-                onChange={(e) => setFilters({ ...filters, propertySize: e.target.value })}
-              />
-            </div>
+          <div className="flex flex-col">
+            <label className="mb-1 text-sm text-gray-700 font-medium">Property Size</label>
+            <input
+              type="text"
+              placeholder="Any size"
+              className="p-2 border rounded-md border-gray-300 text-gray-800 w-full"
+              value={filters.propertySize}
+              onChange={(e) => setFilters({ ...filters, propertySize: e.target.value })}
+            />
+          </div>
 
-            <div className="flex flex-col">
-              <label className="mb-1 text-sm text-gray-700 font-medium">Your Budget</label>
-              <input
-                type="text"
-                placeholder="Enter budget"
-                className="p-2 border rounded-md border-gray-300 text-gray-800 w-full"
-                value={filters.budget}
-                onChange={(e) => setFilters({ ...filters, budget: e.target.value })}
-              />
-            </div>
+          <div className="flex flex-col">
+            <label className="mb-1 text-sm text-gray-700 font-medium">Budget</label>
+            <input
+              type="text"
+              placeholder="Enter budget"
+              className="p-2 border rounded-md border-gray-300 text-gray-800 w-full"
+              value={filters.budget}
+              onChange={(e) => setFilters({ ...filters, budget: e.target.value })}
+            />
+          </div>
 
-            <div className="flex flex-col">
-              <label className="mb-1 text-sm text-gray-700 font-medium">&nbsp;</label>
-              <button
-                type="submit"
-                className="p-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 w-full"
-              >
-                <Search className="h-5 w-5" />
-                <span>Search</span>
-              </button>
-            </div>
-          </form>
+          <div className="flex flex-col">
+            <label className="mb-1 text-sm text-gray-700 font-medium">&nbsp;</label>
+            <button
+              type="submit"
+              className="p-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 w-full"
+            >
+              <Search className="h-5 w-5" />
+              <span>Search</span>
+            </button>
+          </div>
+            </form>
+          </div>
         </div>
-      </div>
 
-      {/* Results Section */}
+        {/* Results Section */}
       <div className="container mx-auto px-4 mt-8">
         {isLoading ? (
           <div className="flex justify-center items-center h-64">
@@ -180,7 +194,7 @@ const Browse = () => {
         ) : (
           <>
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold">{results.length} Properties Found</h2>
+              <h2 className="text-xl font-bold">{results.length} Entries Found</h2>
               <div className="flex gap-2">
                 <select className="p-2 border rounded-md border-gray-300 text-gray-800">
                   <option value="newest">Newest First</option>

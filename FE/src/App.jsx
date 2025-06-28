@@ -75,23 +75,23 @@ const AppRoutes = () => {
         <Route path="/buy/residential" element={<BuyResidential />} />
         {/* wishlist page */}
         {/* end of wishlist page */}
-        <Route path="/all" element={<AllProducts />} />
-        <Route path="/search" element={<SearchPage />} />
-        <Route path="/browse/:btype/:category/:type?" element={<Browse />} />
+          <Route path="/all" element={<AllProducts />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/browse/:btype/:category/:type?" element={<Browse />} />
 
-        <Route path="/product/:slug" element={<ProductDetails />} />
-        <Route path="/contact-us" element={<ContactPage />} />
-        <Route path="/Sell" element={<Sell />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/about" element={<AboutUs />} />
-        <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/help-center" element={<HelpCenter />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/news" element={<News />} />
-        <Route path="/faqs" element={<FAQ />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/terms-of-use" element={<TermsOfUse />} />
-        {/* chat page */}
+          <Route path="/product/:slug?" element={<ProductDetails />} />
+          <Route path="/contact-us" element={<ContactPage />} />
+          <Route path="/Sell" element={<Sell />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/help-center" element={<HelpCenter />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/news" element={<News />} />
+          <Route path="/faqs" element={<FAQ />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-use" element={<TermsOfUse />} />
+          {/* chat page */}
         {/* seller pages */}
         <Route element={<ProtectedRoute />}>
           <Route path="/profile" element={<ProfilePage />} />

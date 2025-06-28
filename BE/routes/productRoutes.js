@@ -17,6 +17,7 @@ import {
   getProductByDId,
   getSellerProducts,
   searchProperties,
+  BrowseProperties,
 } from "../controlers/product.controler.js";
 import {
   authenticate,
@@ -102,4 +103,5 @@ productRouter.delete(
 // Get user's wishlist
 productRouter.get("/wishlist/all", authenticate, getAllWishlist);
 productRouter.get("/search", searchProperties);
+productRouter.post("/browse",BrowseProperties)
 

@@ -7,7 +7,7 @@ import { useAuth } from "../hooks/useAuth";
 import { UserMenu } from "./user-menu";
 import Logo from "../Assets/Logo.png"
 
-const CATEGORIES = ["For Buy", "For Sale", "Rental", "Services", "About Us", "Help Center", ]
+const CATEGORIES = ["For Sale", "Rental", "Services", "About Us", "Help Center", ]
 
 export const Navbar = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -88,7 +88,7 @@ export const Navbar = () => {
                 <div key={index} className="relative flex-shrink-0">
                     <Link
                       to={
-                        index < 3
+                        index < 2
                           ? `/browse/availability/${item.replace(/\s+/g, "-").toLowerCase()}`
                           : `/${item.replace(/\s+/g, "-").toLowerCase()}`
                       }

@@ -50,6 +50,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route element={<DashboardLayout />}>
               <Route path="/" element={<Home />} />
+              <Route path="/login " element={<Home />} />
               <Route path="/all-products" element={<AllProduct />} />
               <Route path="/messages" element={<AdminChatPage />} />
               <Route path="/admin/profile" element={<AdminProfile />} />

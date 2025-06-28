@@ -7,7 +7,7 @@ import { useAuth } from "../hooks/useAuth";
 import { UserMenu } from "./user-menu";
 import Logo from "../Assets/Logo.png"
 
-const CATEGORIES = ["Product","For Buy", "For Sale", "Rental", "Service", "About Us", "Help Center", ]
+const CATEGORIES = ["For Buy", "For Sale", "Rental", "Services", "About Us", "Help Center", ]
 
 export const Navbar = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -77,29 +77,25 @@ export const Navbar = () => {
             <img src={Logo} alt="Logo" className="h-20" />
           </Link>
 
-          <div className="flex-1 max-w-[70%] overflow-hidden relative">
-            {/* Scroll Shadows */}
-           
-
-            {/* Scroll Buttons */} 
-            <button onClick={() => scrollNav("left")} className="absolute left-0 z-20 h-full px-2">
-              <ChevronLeft className="w-5 h-5 text-gray-500" />
-            </button>
-            <button onClick={() => scrollNav("right")} className="absolute right-0 z-20 h-full px-2">
-              <ChevronRight className="w-5 h-5 text-gray-500" />
-            </button>
+          <div className="flex-1 overflow-hidden relative">
 
             {/* Scrollable Category Bar */}
             <div
               ref={scrollRef}
-              className="relative z-10 flex overflow-x-auto scroll-smooth gap-6 px-8"
-              style={{ scrollbarWidth: "none" }}
-              onScroll={() => setOpenDropdown(null)}
+              className="relative z-10 flex  gap-6 px-8"
             >
               {CATEGORIES.map((item, index) => (
                 <div key={index} className="relative flex-shrink-0">
-                  
-                    {item}
+                    <Link
+                      to={
+                        index < 3
+                          ? `/browse/availability/${item.replace(/\s+/g, "-").toLowerCase()}`
+                          : `/${item.replace(/\s+/g, "-").toLowerCase()}`
+                      }
+                      className="text-sm font-medium text-white-700 hover:text-orange-100"
+                    >
+                      {item}
+                    </Link>
                   
                 </div>
               ))}

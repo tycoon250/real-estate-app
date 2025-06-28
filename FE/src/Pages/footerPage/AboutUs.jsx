@@ -1,6 +1,7 @@
 import React from 'react';
 import { MapPin, Home, Users, Star, Award, Building2, Clock, Phone, Mail, ArrowRight } from 'lucide-react';
 import Hirwa from '../../Assets/HIRWA.png'
+import Heshima from '../../Assets/heshima.png'
 
 function AboutUs() {
   return (
@@ -127,7 +128,7 @@ function AboutUs() {
               {
                 name: "Herbert HESHIMA",
                 role: "Designer",
-                image: ""
+                image: Heshima
               },
               {
                 name: "Hirwa JEREMIE",

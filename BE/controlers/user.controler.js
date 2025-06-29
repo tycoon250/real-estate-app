@@ -53,6 +53,7 @@ export const signup = async (req, res) => {
       httpOnly: true,
       maxAge: 5 * 24 * 60 * 60 * 1000, // 5 days in milliseconds
       secure: process.env.NODE_ENV === "production", // Only set secure cookie in production
+      sameSite: "None", // Allow cross-site requests
     });
 
     // Remove password before sending user data
@@ -101,6 +102,7 @@ export const login = async (req, res) => {
     res.cookie("auth_token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
+      sameSite: "None", // Allow cross-site requests
       maxAge: 5 * 24 * 60 * 60 * 1000, // 5 days
     });
 
@@ -156,6 +158,7 @@ export const adLogin = async (req, res) => {
       res.cookie("temp_auth_token", tempToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
+        sameSite: "None", // Allow cross-site requests
         maxAge: 15 * 60 * 1000, // 15 mins
       });
 
@@ -217,6 +220,7 @@ export const verify2FA = async (req, res) => {
     res.cookie("auth_ad_token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
+      sameSite: "None", // Allow cross-site requests
       maxAge: 5 * 24 * 60 * 60 * 1000, // 5 days
     });
 

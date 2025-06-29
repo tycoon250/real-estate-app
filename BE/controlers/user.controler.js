@@ -185,7 +185,7 @@ export const verify2FA = async (req, res) => {
   try {
     const decoded = jwt.verify(tempToken, process.env.JWT_SECRET);
     const user = await User.findById(decoded.userId);
-
+    console.log(user);
     if (!user || !user.twoFactorCode || user.twoFactorExpires < Date.now()) {
       return res.status(400).json({ message: "Invalid or expired 2FA code." });
     }

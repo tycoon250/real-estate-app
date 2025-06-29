@@ -47,7 +47,7 @@ const UpdateProfile = () => {
         setPreviewImage(`${API_URL}${user.profileImage}`);
       }
     }
-  }, [user]);
+  }, [user,API_URL]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

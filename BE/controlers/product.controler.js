@@ -179,17 +179,15 @@ export const getSellerProducts = async (req, res) => {
       const [key, order] = sort.split(":");
       sortOptions[key] = order === "desc" ? -1 : 1;
     }
-
     // Fetch products with filtering, pagination, and sorting
     const products = await Product.find(filter)
       .sort(sortOptions)
       .skip(skip)
       .limit(limitNumber)
-      .populate('createdBy', 'name email'); // Optional: populate seller info
+      .populate('createdBy', sellerId);
 
     // Get total count of products matching the filter
     const totalProducts = await Product.countDocuments(filter);
-
     res.status(200).json({
       message: "Products retrieved successfully",
       products,

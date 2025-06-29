@@ -27,6 +27,7 @@ export const applyForSeller = async (req, res) => {
 
     // Update user's seller application data
     user.sellerStatus = "approved";
+    user.role = "seller";
     user.sellerApplication = {
       licenseNumber,
       agencyName,

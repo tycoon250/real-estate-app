@@ -189,7 +189,7 @@ export const verify2FA = async (req, res) => {
     const decoded = jwt.verify(tempToken, process.env.JWT_SECRET);
     const user = await User.findById(decoded.userId);
     const currentTimeUTC = DateTime.now().setZone("Africa/Kigali").toFormat('yyyy-MM-dd HH:mm:ss');
-    const twoFactorExpiresUTC = DateTime.fromJSDate(user.twoFactorExpires).minus({hours: 1}).toFormat('yyyy-MM-dd HH:mm:ss');
+    const twoFactorExpiresUTC = DateTime.fromJSDate(user.twoFactorExpires).plus({hours: 2}).toFormat('yyyy-MM-dd HH:mm:ss');
 
     console.log(currentTimeUTC, twoFactorExpiresUTC);
     if(!user){

@@ -105,7 +105,6 @@ export const login = async (req, res) => {
     });
 
     const userData = user.toObject();
-    delete userData.password; // Remove password from response
 
     res.json({
       message: "Login successful",

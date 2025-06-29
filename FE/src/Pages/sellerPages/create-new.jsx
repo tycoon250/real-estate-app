@@ -10,29 +10,122 @@ import {
   Bed,
   Bath,
   MapPin,
+  Tag,
+  Edit,
+  PlusCircle,
+  NotebookTabs,
+  NotepadTextDashed,
+  Notebook,
+  Delete,
+  DeleteIcon,
+  RemoveFormatting,
+  Trash2,
+  Trash,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useAuthContext } from "../../Components/sellerComponents/AuthContext";
-
+const API_URL = process.env.REACT_APP_API_URL;
 // Define option arrays
 const CATEGORIES = [
-  "Residential",
-  "Commercial",
-  "Land",
-  "Industrial",
-  "Luxury",
-  "Vacation Rentals",
+  "Electronics",
+  "Fashion",
+  "Home & Living",
+  "Beauty & Personal Care",
+  "Health & Wellness",
+  "Sports & Outdoors",
+  "Baby & Kids",
+  "Groceries & Food",
+  "Books & Stationery",
+  "Automotive",
+  "Pets Supplies",
+  "Tools & Hardware",
+  "Gifts & Special Occasions",
 ];
 
-const TYPES = [
-  "House",
-  "Office",
-  "Apartment/Condo",
-  "Land",
-  "Commercial Space",
-  "Industrial Property",
-];
+const TYPES = {
+  Electronics: [
+    "Mobile Phones & Accessories",
+    "Computers & Tablets",
+    "TVs & Audio",
+    "Cameras & Drones",
+    "Gaming Consoles",
+  ],
+  Fashion: [
+    "Men’s Clothing",
+    "Women’s Clothing",
+    "Kids' Clothing",
+    "Shoes & Footwear",
+    "Bags & Accessories",
+    "Jewelry & Watches",
+  ],
+  "Home & Living": [
+    "Furniture",
+    "Home Décor",
+    "Kitchenware",
+    "Bedding & Linen",
+    "Lighting",
+  ],
+  "Beauty & Personal Care": [
+    "Skincare",
+    "Makeup",
+    "Hair Care",
+    "Fragrances",
+    "Men's Grooming",
+  ],
+  "Health & Wellness": [
+    "Supplements & Vitamins",
+    "Fitness Equipment",
+    "Medical Supplies",
+    "Personal Protective Equipment",
+  ],
+  "Sports & Outdoors": [
+    "Fitness Equipment",
+    "Outdoor Gear",
+    "Bicycles & Accessories",
+    "Camping & Hiking",
+  ],
+  "Baby & Kids": [
+    "Baby Clothing",
+    "Toys & Games",
+    "Baby Gear (Strollers, Car Seats)",
+    "School Supplies",
+  ],
+  "Groceries & Food": [
+    "Fresh Produce",
+    "Snacks & Beverages",
+    "Health Foods",
+    "Organic Products",
+  ],
+  "Books & Stationery": [
+    "Fiction & Non-Fiction",
+    "Academic Books",
+    "Office Supplies",
+    "Art Supplies",
+  ],
+  Automotive: [
+    "Car Accessories",
+    "Motorbike Accessories",
+    "Tools & Equipment",
+    "Vehicle Electronics",
+  ],
+  "Pets Supplies": [
+    "Pet Food",
+    "Toys & Accessories",
+    "Pet Care Products",
+  ],
+  "Tools & Hardware": [
+    "Power Tools",
+    "Hand Tools",
+    "Building Materials",
+    "Electrical Equipment",
+  ],
+  "Gifts & Special Occasions": [
+    "Gift Cards",
+    "Seasonal Items (e.g. Christmas, Valentine's Day)",
+    "Personalized Gifts",
+  ],
+};
 
 const STATUSES = [
   "Available",
@@ -58,6 +151,7 @@ const CreateProductForm = () => {
     location: "",
     beds: "",
     baths: "",
+    specifications: {},
   });
 
   // Image state
@@ -69,6 +163,7 @@ const CreateProductForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { user } = useAuthContext();
   const API_URL = process.env.REACT_APP_API_URL;
+
   // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -77,7 +172,7 @@ const CreateProductForm = () => {
       [name]: value,
     }));
   };
-
+console.log(user)
   // Handle display image upload
   const handleDisplayImageChange = (e) => {
     const file = e.target.files?.[0];
@@ -86,7 +181,6 @@ const CreateProductForm = () => {
       setDisplayImagePreview(URL.createObjectURL(file));
     }
   };
-
   // Handle multiple image upload
   const handleImagesChange = (e) => {
     const files = Array.from(e.target.files || []);
@@ -123,7 +217,8 @@ const CreateProductForm = () => {
     setImages((prev) => prev.filter((_, i) => i !== index));
     setImagesPreviews((prev) => prev.filter((_, i) => i !== index));
   };
-
+  const [currSpecName, setCurSpecName] = useState(''),
+  [currSpecVal, setCurSpecVal] = useState('')
   // Form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -140,7 +235,7 @@ const CreateProductForm = () => {
 
     // Append form fields
     Object.entries(formData).forEach(([key, value]) => {
-      submitData.append(key, value.toString());
+      submitData.append(key, typeof value === "object" ? JSON.stringify(value) : value);
     });
 
     // Append images
@@ -153,7 +248,7 @@ const CreateProductForm = () => {
     });
 
     try {
-      const response = await axios.post(API_URL+"/api/product/new", submitData, {
+      const response = await axios.post(`${API_URL}/api/product/new`, submitData, {
         withCredentials: true,
       });
   
@@ -247,7 +342,7 @@ const CreateProductForm = () => {
           {/* Property Details Section */}
           <div>
             <h2 className="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b">
-              Property Details
+              Product Details
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="space-y-2">
@@ -282,7 +377,7 @@ const CreateProductForm = () => {
                   required
                 >
                   <option value="">Select Type</option>
-                  {TYPES.map((type) => (
+                  {TYPES[formData.category]?.map((type) => (
                     <option key={type} value={type}>
                       {type}
                     </option>
@@ -310,58 +405,96 @@ const CreateProductForm = () => {
                 </select>
               </div>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">
-                  <div className="flex items-center gap-2">
-                    <MapPin size={16} />
-                    <span>Location</span>
-                  </div>
-                </label>
-                <input
-                  type="text"
-                  name="location"
-                  value={formData.location}
-                  onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                  placeholder="Address or location"
-                  required
-                />
+            <div className="mt-4 space-y-2">
+              <h2 className="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b">
+                Product Specifications
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">
+                    <div className="flex items-center gap-2">
+                      <Tag size={16} />
+                      <span>Specification Name</span>
+                    </div>
+                  </label>
+                  <input
+                    type="text"
+                    name="specName"
+                    value= {currSpecName}
+                    onChange={(e)=>setCurSpecName(e.target.value)}
+                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                    placeholder="Specification name (e.g. Color, Size, etc.)"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">
+                    <div className="flex items-center gap-2">
+                      <Notebook size={16} />
+                      <span>specification value</span>
+                    </div>
+                  </label>
+                  <input
+                    type="text"
+                    name="specVal"
+                    value={currSpecVal}
+                    onChange={(e)=>setCurSpecVal(e.target.value)}
+                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                    placeholder="Specification value (e.g. Red, Large, etc.)"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <div className="p-1.5"></div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (currSpecName && currSpecVal) {
+                        setFormData((prev) => ({
+                          ...prev,
+                          specifications: {
+                            ...prev.specifications,
+                            [currSpecName]: currSpecVal,
+                          },
+                        }));
+                        setCurSpecName("");
+                        setCurSpecVal("");
+                      }}}
+                      className="p-3 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-200 font-medium flex items-center gap-2"
+                      >
+                      <PlusCircle size={16} />
+                      Add
+                  </button>
+                </div>
               </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">
-                  <div className="flex items-center gap-2">
-                    <Bed size={16} />
-                    <span>Bedrooms</span>
-                  </div>
-                </label>
-                <input
-                  type="number"
-                  name="beds"
-                  value={formData.beds}
-                  onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                  placeholder="Number of bedrooms"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">
-                  <div className="flex items-center gap-2">
-                    <Bath size={16} />
-                    <span>Bathrooms</span>
-                  </div>
-                </label>
-                <input
-                  type="number"
-                  name="baths"
-                  value={formData.baths}
-                  onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                  placeholder="Number of bathrooms"
-                />
+                {/* Render Specifications */}
+              <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-6">
+                {formData.specifications &&
+                  Object.entries(formData.specifications).map(([key, value], index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between p-4 border border-gray-300 rounded-lg shadow-sm mb-3 bg-gray-50 hover:bg-gray-100 transition-colors"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Tag size={20} className="text-blue-500" />
+                        <div>
+                          <p className="text-sm font-semibold text-gray-800">{key}</p>
+                          <p className="text-sm text-gray-600">{value}</p>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setFormData((prev) => {
+                            const updatedSpecs = { ...prev.specifications };
+                            delete updatedSpecs[key];
+                            return { ...prev, specifications: updatedSpecs };
+                          });
+                        }}
+                        className="text-red-500 hover:text-red-700 transition-colors flex items-center gap-1 cursor-pointer"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
+                  ))}
               </div>
             </div>
           </div>

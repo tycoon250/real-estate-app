@@ -75,7 +75,7 @@ export function ConversationList({
         <h2 className="text-lg font-medium text-gray-900">Conversations</h2>
       </div>
       <div className="overflow-y-auto flex-1">
-        {conversations.map((conversation) => {
+        {conversations.map((conversation,index) => {
           const otherParticipant = conversation.participants.find(
             (p) => p._id !== currentUser?._id
           );
@@ -84,7 +84,7 @@ export function ConversationList({
 
           return (
             <div
-              key={conversation.id}
+              key={conversation._id}
               className={`p-4 border-b border-gray-100 cursor-pointer transition-colors ${
                 selectedConversation?._id === conversation._id
                   ? "bg-blue-50"

@@ -26,7 +26,7 @@ export const applyForSeller = async (req, res) => {
     } = req.body;
 
     // Update user's seller application data
-    user.sellerStatus = "pending";
+    user.sellerStatus = "approved";
     user.sellerApplication = {
       licenseNumber,
       agencyName,

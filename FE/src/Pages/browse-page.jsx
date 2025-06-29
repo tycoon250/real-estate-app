@@ -32,7 +32,6 @@ const Browse = () => {
         if(typeData){
           fetchSearchResults(btype,categoryData,typeData)
         }
-        console.log(categoryData, typeData);
       }
     }else if(btype && btype == 'availability'){
       fetchSearchResults(btype, category.replace(/-/g, ' '), null)

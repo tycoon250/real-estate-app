@@ -1,6 +1,6 @@
 import express from "express";
 import { body, check } from "express-validator";
-import { adLogin, adLogout, getAllUsers, login, logout, profile, signup, updateProfile, verify2FA } from "../controlers/user.controler.js";
+import { adLogin, adLogout, getAllUsers, login, logout, profile, Resend2FA, signup, updateProfile, verify2FA } from "../controlers/user.controler.js";
 import { authenticateAdminToken, authenticateToken } from "../middlewares/auth.middleware.js";
 import { uploadMiddleware } from "../utils/multerConfig.js";
 import { usersLimiter } from "../middlewares/rateLimiter.js";
@@ -70,6 +70,11 @@ authRouter.post(
   "/admin/logout",
   
   adLogout
+);
+authRouter.post(
+  "/resend-2fa",
+  
+  Resend2FA
 );
 
 authRouter.get("/profile", authenticateToken, profile)

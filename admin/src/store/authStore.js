@@ -65,6 +65,19 @@ const authStore = (set) => ({
       return false;
     }
   },
+  resend2FA: async () => {
+    try {
+      const { tempToken } = useAuthStore.getState();
+      const { data } = await axios.post(`${API_URL}/api/resend-2fa`, { tempToken }, { withCredentials: true });
+      set({ error: null });
+      toast.success("Verification code resent successfully");
+      return data;
+    } catch (error) {
+      toast.error("Failed to resend verification code");
+      return false
+    }
+  }
+  ,
   
   logout: async () => {
     try {

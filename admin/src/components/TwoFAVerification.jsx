@@ -7,7 +7,7 @@ export default function TwoFAVerification() {
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { verify2FA, error: storeError } = useAuthStore();
+  const { verify2FA,resend2FA, error: storeError } = useAuthStore();
   const [error, setError] = useState(storeError || null);
   
   const inputRefs = useRef([]);
@@ -91,6 +91,23 @@ export default function TwoFAVerification() {
     }
   };
 
+  const handleResendCode = async (e) => {
+    e.preventDefault();
+    try {
+      setIsLoading(true);
+      setError(null);
+      const response = await resend2FA();
+      if (!response) {
+        throw new Error('Failed to resend code');
+      }
+    } catch (err) {
+      setError('Failed to resend verification code. Please try again.');
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-xl">
@@ -155,13 +172,20 @@ export default function TwoFAVerification() {
                   <ArrowRight className="h-5 w-5 text-indigo-300 group-hover:text-indigo-200" />
                 )}
               </span>
-              {isLoading ? 'Verifying...' : 'Verify & Continue'}
+              {isLoading ? 'Loading...' : 'Verify & Continue'}
             </button>
           </div>
           
           <div className="text-center">
             <p className="text-sm text-gray-600">
-              Didn't receive a code? <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">Resend code</a>
+              Didn't receive a code?{' '}
+              <a
+                href="#"
+                className="font-medium text-indigo-600 hover:text-indigo-500"
+                onClick={handleResendCode}
+              >
+                Resend code
+              </a>
             </p>
           </div>
         </form>

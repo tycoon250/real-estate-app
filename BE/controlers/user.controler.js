@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 import { validationResult } from "express-validator";
 import { User } from "../models/user.model.js";
 import { send2FACode } from "../utils/emailSender.js";
+import { DateTime } from "luxon";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -141,7 +142,7 @@ export const adLogin = async (req, res) => {
       const hashedCode = await bcrypt.hash(code, 10);
       console.log(code)
       user.twoFactorCode = hashedCode;
-      user.twoFactorExpires = Date.now() + 15 * 60 * 1000; // 15 mins expiry
+      user.twoFactorExpires = DateTime.now().setZone("Africa/Kigali").plus({ minutes: 15 }).toISO(); // Save expiry in Rwanda time zone as formatted string
       await user.save();
 
       await send2FACode(user.email, code); // Send 2FA code to admin email
@@ -185,9 +186,10 @@ export const verify2FA = async (req, res) => {
   try {
     const decoded = jwt.verify(tempToken, process.env.JWT_SECRET);
     const user = await User.findById(decoded.userId);
-    console.log(user);
-    const currentTimeUTC = new Date().toISOString();
-    const twoFactorExpiresUTC = new Date(user.twoFactorExpires).toISOString();
+    const currentTimeUTC = DateTime.now().setZone("Africa/Kigali").toFormat('yyyy-MM-dd HH:mm:ss');
+    const twoFactorExpiresUTC = DateTime.fromJSDate(user.twoFactorExpires).minus({hours: 1}).toFormat('yyyy-MM-dd HH:mm:ss');
+
+    console.log(currentTimeUTC, twoFactorExpiresUTC);
     if (!user || !user.twoFactorCode || twoFactorExpiresUTC < currentTimeUTC) {
       return res.status(400).json({ message: "Invalid or expired 2FA code." });
     }
@@ -231,7 +233,39 @@ export const verify2FA = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+ export const Resend2FA = async (req, res) => {
+  const tempToken = req.cookies.temp_auth_token;
 
+  if (!tempToken) {
+    return res
+      .status(401)
+      .json({ message: "2FA session expired. Login again." });
+  }
+
+  try {
+    const decoded = jwt.verify(tempToken, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.userId);
+
+    if (!user || !user.twoFactorCode || !user.twoFactorExpires) {
+      return res.status(400).json({ message: "2FA not set up for this user." });
+    }
+
+    // Generate new 2FA code
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    const hashedCode = await bcrypt.hash(code, 10);
+    console.log(code)
+    user.twoFactorCode = hashedCode;
+    user.twoFactorExpires = DateTime.now().setZone("Africa/Kigali").plus({ minutes: 15 }).toString();
+    await user.save();
+
+    await send2FACode(user.email, code); // Send new code to admin email
+
+    res.json({ message: "New 2FA code sent to your email" });
+  } catch (err) {
+    console.error("Resend 2FA error:", err);
+    res.status(500).json({ message: "Server error" });
+  } 
+ }
 // Logout Controller
 export const logout = (req, res) => {
   res.clearCookie("auth_token", {

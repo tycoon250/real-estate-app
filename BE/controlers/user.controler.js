@@ -189,9 +189,18 @@ export const verify2FA = async (req, res) => {
     const twoFactorExpiresUTC = DateTime.fromJSDate(user.twoFactorExpires).minus({hours: 1}).toFormat('yyyy-MM-dd HH:mm:ss');
 
     console.log(currentTimeUTC, twoFactorExpiresUTC);
-    if (!user || !user.twoFactorCode || twoFactorExpiresUTC < currentTimeUTC) {
-      return res.status(400).json({ message: "Invalid or expired 2FA code." });
+    if(!user){
+      return res.status(404).json({ message: "user not found." });
     }
+    if(!user.twoFactorCode){
+      return res.status(400).json({ message: "2FA not set up for this user." });
+    }
+    if(twoFactorExpiresUTC < currentTimeUTC){
+      return res.status(400).json({ message: "2FA code expired." });
+    }
+    // if (!user || !user.twoFactorCode || twoFactorExpiresUTC < currentTimeUTC) {
+    //   return res.status(400).json({ message: "Invalid or expired 2FA code." });
+    // }
 
     const isMatch = await bcrypt.compare(code, user.twoFactorCode);
     if (!isMatch) {

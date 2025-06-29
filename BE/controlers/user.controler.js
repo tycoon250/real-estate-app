@@ -51,9 +51,9 @@ export const signup = async (req, res) => {
     // Set a cookie with the JWT token and user info (excluding password)
     res.cookie("auth_token", token, {
       httpOnly: true,
-      maxAge: 5 * 24 * 60 * 60 * 1000, // 5 days in milliseconds
-      secure: process.env.NODE_ENV === "production", // Only set secure cookie in production
-      sameSite: "None", // Allow cross-site requests
+      secure: process.env.NODE_ENV === "production", // Use secure cookies only in production
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // Use "None" for cross-site in production, "Lax" for local testing
+      maxAge: 5 * 24 * 60 * 60 * 1000, // 5 days
     });
 
     // Remove password before sending user data
@@ -101,8 +101,8 @@ export const login = async (req, res) => {
 
     res.cookie("auth_token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "None", // Allow cross-site requests
+      secure: process.env.NODE_ENV === "production", // Use secure cookies only in production
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // Use "None" for cross-site in production, "Lax" for local testing
       maxAge: 5 * 24 * 60 * 60 * 1000, // 5 days
     });
 
@@ -157,8 +157,8 @@ export const adLogin = async (req, res) => {
 
       res.cookie("temp_auth_token", tempToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "None", // Allow cross-site requests
+        secure: process.env.NODE_ENV === "production", // Use secure cookies only in production
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // Use "None" for cross-site in production, "Lax" for local testing
         maxAge: 15 * 60 * 1000, // 15 mins
       });
 
@@ -219,8 +219,8 @@ export const verify2FA = async (req, res) => {
 
     res.cookie("auth_ad_token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "None", // Allow cross-site requests
+      secure: process.env.NODE_ENV === "production", // Use secure cookies only in production
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // Use "None" for cross-site in production, "Lax" for local testing
       maxAge: 5 * 24 * 60 * 60 * 1000, // 5 days
     });
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { Search } from "lucide-react"
 import ProductCard from "../Components/reuserbleProductCard/ProductCard"
-import { CATEGORIES, OPTIONS } from "../utils/productsGroupings";
+import { CATEGORIES, OPTIONS, STATUSES } from "../utils/productsGroupings";
 
 const Browse = () => {
   const location = useLocation()
@@ -11,26 +11,23 @@ const Browse = () => {
   const [results, setResults] = useState([])
   const [wishlist, setWishlist] = useState([])
   const { category,type,btype } = useParams();
+  const [catData,setCatData] = useState({})
+  const [typData,setTypeData] = useState({})
   const API_URL = process.env.REACT_APP_API_URL;
 
   // Parse query parameters from URL
   const queryParams = new URLSearchParams(location.search)
-  const [filters, setFilters] = useState({
-    lookingFor: queryParams.get("lookingFor") || "",
-    location: queryParams.get("location") || "",
-    propertyType: queryParams.get("propertyType") || "",
-    propertySize: queryParams.get("propertySize") || "",
-    budget: queryParams.get("budget") || "",
-  })
   // Fetch search results when component mounts or URL changes
   useEffect(() => {
     if(btype && btype == 'type'){
       let categoryData  = CATEGORIES.find((cat) => cat.id === category),
       typeData;
       if(categoryData){
+        setCatData(categoryData)
         typeData = OPTIONS[categoryData.name]?.find((t) => t.id === type)
         if(typeData){
           fetchSearchResults(btype,categoryData,typeData)
+          setTypeData(typeData)
         }else if (!typeData && !type?.length){
           fetchSearchResults(btype,categoryData,{})
         }
@@ -46,7 +43,31 @@ const Browse = () => {
     // For now, we'll just use an empty array
     setWishlist([])
   }
-
+  const [filters, setFilters] = useState(() => {
+    if (btype === "availability") {
+      return {
+        category: "",
+        type: "",
+        status: category.replace(/-/g, " "),
+        budget: "",
+      };
+    } else if (btype === "type") {
+      return {
+        category: catData?.name,
+        type: typData?.label,
+        status: "",
+        budget: "",
+      };
+    } else {
+      return {
+        category: queryParams.get("category") || "",
+        type: queryParams.get("type") || "",
+        status: queryParams.get("status") || "",
+        budget: "",
+      };
+    }
+  });
+  console.log(typData,catData)
   const fetchSearchResults = async (btype,categoryData,typeData) => {
     setIsLoading(true)
     try {
@@ -71,16 +92,18 @@ const Browse = () => {
       setIsLoading(false)
     }
   }
-
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
   const handleSearch = (e) => {
     e.preventDefault()
 
     // Build query string from the filters
     const queryParams = new URLSearchParams()
-    if (filters.lookingFor) queryParams.append("lookingFor", filters.lookingFor)
-    if (filters.location) queryParams.append("location", filters.location)
-    if (filters.propertyType) queryParams.append("propertyType", filters.propertyType)
-    if (filters.propertySize) queryParams.append("propertySize", filters.propertySize)
     if (filters.budget) queryParams.append("budget", filters.budget)
 
     // Navigate to search page with query parameters
@@ -108,80 +131,86 @@ const Browse = () => {
             <p className="text-gray-600 mb-4">Use the filters below to narrow down your search and find the perfect match for your needs.</p>
 
             <form onSubmit={handleSearch} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
-          <div className="flex flex-col">
-            <label className="mb-1 text-sm text-gray-700 font-medium">Availability</label>
-            <select
-              className="p-2 border rounded-md border-gray-300 text-gray-800 w-full"
-              value={filters.lookingFor}
-              onChange={(e) => setFilters({ ...filters, lookingFor: e.target.value })}
-            >
-              <option value="">Choose</option>
-              <option value="Available">Available</option>
-              <option value="For Sale">Buy</option>
-              <option value="Rental">Rent</option>
-            </select>
-          </div>
+                <div className="flex flex-col">
+                  <label className="text-sm font-medium text-gray-700">
+                    Category
+                  </label>
+                  <select
+                    name="category"
+                    value={filters.category}
+                    onChange={handleChange}
+                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                    required
+                  >
+                    <option value="">Select Category</option>
+                    {CATEGORIES.map((cat) => (
+                      <option key={cat.id} value={cat.name}>
+                        {cat.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-          <div className="flex flex-col">
-            <label className="mb-1 text-sm text-gray-700 font-medium">Location</label>
-            <input
-              type="text"
-              placeholder="Enter location"
-              className="p-2 border rounded-md border-gray-300 text-gray-800 w-full"
-              value={filters.location}
-              onChange={(e) => setFilters({ ...filters, location: e.target.value })}
-            />
-          </div>
+                <div className="flex flex-col">
+                  <label className="text-sm font-medium text-gray-700">
+                    Type
+                  </label>
+                  <select
+                    name="type"
+                    value={filters.type}
+                    onChange={handleChange}
+                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                    required
+                  >
+                    <option value="">Select Type</option>
+                    {OPTIONS[filters.category]?.map((type) => (
+                      <option key={type.id} value={type.label}>
+                        {type.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-          <div className="flex flex-col">
-            <label className="mb-1 text-sm text-gray-700 font-medium">Property Type</label>
-            <select
-              className="p-2 border rounded-md border-gray-300 text-gray-800 w-full"
-              value={filters.propertyType}
-              onChange={(e) => setFilters({ ...filters, propertyType: e.target.value })}
-            >
-              <option value="">Select type</option>
-              <option value="House">House</option>
-              <option value="Office">Office</option>
-              <option value="Land">Land</option>
-              <option value="Apartment/Condo">Apartment</option>
-              <option value="Commercial Space">Commercial</option>
-              <option value="Industrial Property">Industrial Property</option>
-            </select>
-          </div>
+                <div className="flex flex-col">
+                  <label className="text-sm font-medium text-gray-700">
+                    Status
+                  </label>
+                  <select
+                    name="status"
+                    value={filters.status}
+                    onChange={handleChange}
+                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                    required
+                  >
+                    <option value="">Select Status</option>
+                    {STATUSES.map((status) => (
+                      <option key={status} value={status}>
+                        {status}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              <div className="flex flex-col">
+                <label className="mb-1 text-sm text-gray-700 font-medium">Budget</label>
+                <input
+                  type="text"
+                  placeholder="Enter budget"
+                  className="p-2 border rounded-md border-gray-300 text-gray-800 w-full"
+                  value={filters.budget}
+                  onChange={(e) => setFilters({ ...filters, budget: e.target.value })}
+                />
+              </div>
 
-          <div className="flex flex-col">
-            <label className="mb-1 text-sm text-gray-700 font-medium">Property Size</label>
-            <input
-              type="text"
-              placeholder="Any size"
-              className="p-2 border rounded-md border-gray-300 text-gray-800 w-full"
-              value={filters.propertySize}
-              onChange={(e) => setFilters({ ...filters, propertySize: e.target.value })}
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <label className="mb-1 text-sm text-gray-700 font-medium">Budget</label>
-            <input
-              type="text"
-              placeholder="Enter budget"
-              className="p-2 border rounded-md border-gray-300 text-gray-800 w-full"
-              value={filters.budget}
-              onChange={(e) => setFilters({ ...filters, budget: e.target.value })}
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <label className="mb-1 text-sm text-gray-700 font-medium">&nbsp;</label>
-            <button
-              type="submit"
-              className="p-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 w-full"
-            >
-              <Search className="h-5 w-5" />
-              <span>Search</span>
-            </button>
-          </div>
+              <div className="flex flex-col">
+                <label className="mb-1 text-sm text-gray-700 font-medium">&nbsp;</label>
+                <button
+                  type="submit"
+                  className="p-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 w-full"
+                >
+                  <Search className="h-5 w-5" />
+                  <span>Search</span>
+                </button>
+              </div>
             </form>
           </div>
         </div>

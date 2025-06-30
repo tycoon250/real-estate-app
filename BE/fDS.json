@@ -3278,5 +3278,61 @@
   {
     "filePath": "C:\\Users\\Administrator\\Documents\\p\\real-estate-app\\BE\\root.config.js",
     "dD": "2025-10-07T20:01:49.161Z"
+  },
+  {
+    "filePath": "C:\\Users\\Administrator\\Documents\\p\\real-estate-app\\BE\\models\\user.model.js",
+    "dD": "2025-07-10T12:29:57.363Z"
+  },
+  {
+    "filePath": "C:\\Users\\Administrator\\Documents\\p\\real-estate-app\\BE\\models\\product.model.js",
+    "dD": "2025-07-10T12:29:57.367Z"
+  },
+  {
+    "filePath": "C:\\Users\\Administrator\\Documents\\p\\real-estate-app\\BE\\controlers\\product.controler.js",
+    "dD": "2025-07-10T12:29:57.369Z"
+  },
+  {
+    "filePath": "C:\\Users\\Administrator\\Documents\\p\\real-estate-app\\BE\\controlers\\user.controler.js",
+    "dD": "2025-07-10T12:29:57.372Z"
+  },
+  {
+    "filePath": "C:\\Users\\Administrator\\Documents\\p\\real-estate-app\\BE\\routes\\authRoutes.js",
+    "dD": "2025-07-10T12:29:57.375Z"
+  },
+  {
+    "filePath": "C:\\Users\\Administrator\\Documents\\p\\real-estate-app\\BE\\routes\\productRoutes.js",
+    "dD": "2025-07-10T12:29:57.383Z"
+  },
+  {
+    "filePath": "C:\\Users\\Administrator\\Documents\\p\\real-estate-app\\BE\\root.config.js",
+    "dD": "2025-10-08T20:01:49.161Z"
+  },
+  {
+    "filePath": "C:\\Users\\Administrator\\Documents\\p\\real-estate-app\\BE\\models\\user.model.js",
+    "dD": "2025-07-10T13:56:48.168Z"
+  },
+  {
+    "filePath": "C:\\Users\\Administrator\\Documents\\p\\real-estate-app\\BE\\models\\product.model.js",
+    "dD": "2025-07-10T13:56:48.172Z"
+  },
+  {
+    "filePath": "C:\\Users\\Administrator\\Documents\\p\\real-estate-app\\BE\\controlers\\product.controler.js",
+    "dD": "2025-07-10T13:56:48.174Z"
+  },
+  {
+    "filePath": "C:\\Users\\Administrator\\Documents\\p\\real-estate-app\\BE\\controlers\\user.controler.js",
+    "dD": "2025-07-10T13:56:48.177Z"
+  },
+  {
+    "filePath": "C:\\Users\\Administrator\\Documents\\p\\real-estate-app\\BE\\routes\\authRoutes.js",
+    "dD": "2025-07-10T13:56:48.179Z"
+  },
+  {
+    "filePath": "C:\\Users\\Administrator\\Documents\\p\\real-estate-app\\BE\\routes\\productRoutes.js",
+    "dD": "2025-07-10T13:56:48.182Z"
+  },
+  {
+    "filePath": "C:\\Users\\Administrator\\Documents\\p\\real-estate-app\\BE\\root.config.js",
+    "dD": "2025-10-09T20:01:49.161Z"
   }
 ]

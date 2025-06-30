@@ -31,6 +31,8 @@ const Browse = () => {
         typeData = OPTIONS[categoryData.name]?.find((t) => t.id === type)
         if(typeData){
           fetchSearchResults(btype,categoryData,typeData)
+        }else{
+          fetchSearchResults(btype,categoryData,{})
         }
       }
     }else if(btype && btype == 'availability'){

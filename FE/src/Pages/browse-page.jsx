@@ -31,7 +31,7 @@ const Browse = () => {
         typeData = OPTIONS[categoryData.name]?.find((t) => t.id === type)
         if(typeData){
           fetchSearchResults(btype,categoryData,typeData)
-        }else{
+        }else if (!typeData && !type?.length){
           fetchSearchResults(btype,categoryData,{})
         }
       }

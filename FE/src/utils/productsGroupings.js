@@ -57,20 +57,20 @@ import Plotsale from "../Assets/Plotsale.jpg";
 import UseCar from "../Assets/UseCar.jpg";
 import Others from "../Assets/Others.jpg";
 export const CATEGORIES = [
-    { id: "electronics", name: "Electronics" },
-    { id: "fashion", name: "Fashion" },
-    { id: "home-living", name: "Home & Living" },
-    { id: "beauty-personal-care", name: "Beauty & Personal Care" },
-    { id: "health-wellness", name: "Health & Wellness" },
-    { id: "sports-outdoors", name: "Sports & Outdoors" },
-    { id: "baby-kids", name: "Baby & Kids" },
-    { id: "groceries-food", name: "Groceries & Food" },
-    { id: "books-stationery", name: "Books & Stationery" },
-    { id: "automotive", name: "Automotive" },
-    { id: "pets-supplies", name: "Pets Supplies" },
-    { id: "tools-hardware", name: "Tools & Hardware" },
-    { id: "gifts-special-occasions", name: "Gifts & Special Occasions" },
-    { id: "plot-used-materials", name: "Plot & Used Materials" },
+  { id: "electronics", name: "Electronics", href: "/browse/type/electronics" },
+  { id: "fashion", name: "Fashion", href: "/browse/type/fashion" },
+  { id: "home-living", name: "Home & Living", href: "/browse/type/home-living" },
+  { id: "beauty-personal-care", name: "Beauty & Personal Care", href: "/browse/type/beauty-personal-care" },
+  { id: "health-wellness", name: "Health & Wellness", href: "/browse/type/health-wellness" },
+  { id: "sports-outdoors", name: "Sports & Outdoors", href: "/browse/type/sports-outdoors" },
+  { id: "baby-kids", name: "Baby & Kids", href: "/browse/type/baby-kids" },
+  { id: "groceries-food", name: "Groceries & Food", href: "/browse/type/groceries-food" },
+  { id: "books-stationery", name: "Books & Stationery", href: "/browse/type/books-stationery" },
+  { id: "automotive", name: "Automotive", href: "/browse/type/automotive" },
+  { id: "pets-supplies", name: "Pets Supplies", href: "/browse/type/pets-supplies" },
+  { id: "tools-hardware", name: "Tools & Hardware", href: "/browse/type/tools-hardware" },
+  { id: "gifts-special-occasions", name: "Gifts & Special Occasions", href: "/browse/type/gifts-special-occasions" },
+  { id: "plot-used-materials", name: "Plot & Used Materials", href: "/browse/type/plot-used-materials" },
 ];
 export const OPTIONS = {
     Electronics: [
@@ -170,4 +170,13 @@ CATEGORIES.forEach((category) => {
         })
     }
 })
+export const STATUSES = [
+  "Available",
+  "Pending",
+  "Sold",
+  "Rented",
+  "Under Construction",
+  "For Sale",
+  "Rental",
+];
   

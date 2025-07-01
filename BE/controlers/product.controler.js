@@ -515,8 +515,6 @@ export const BrowseProperties = asyncHandler(async (req, res) => {
     const { lookingFor, location, propertyType, propertySize, budget } = req.query,
     {btype, categoryData,typeData} = req.body
     const query = {};
-    
-    console.log(btype, categoryData,typeData)
     // if (location) {
     //   query.location = { $regex: location, $options: "i" };
     // }
@@ -527,7 +525,7 @@ export const BrowseProperties = asyncHandler(async (req, res) => {
     if (btype) {
         if (btype == 'type') {
             query.category = { $in: [categoryData.name] }
-            if (typeData) {
+            if (Object.keys(typeData).length) {
                 query.type = typeData.label 
             }
         }else if (btype == 'availability') {

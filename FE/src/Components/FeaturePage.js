@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Calendar, MessageCircle, User } from 'lucide-react';
+import RENT from '../Assets/RENT.jpg'; // Ensure this path is correct
+import BUY from '../Assets/BUY.jpg'; // Ensure this path is correct
+import SERVICE from '../Assets/SERVICE.jpg'; // Ensure this path is correct
+import SELL from '../Assets/SELL.svg'; // Ensure this path is correct
 
 export default function ServicesCarouselSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -8,28 +12,28 @@ export default function ServicesCarouselSection() {
     {
       id: 1,
       title: "rent",
-      image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=250&fit=crop",
+      image: RENT,
       description: "Items must be returned in original condition. Late returns incur fees. Renters and owners must agree on period, usage terms, and responsibility for damages.",
       link: "Read more »"
     },
     {
       id: 2,
       title: "Buy",
-      image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=250&fit=crop",
+      image: BUY,
       description: "All purchases are final unless seller offers return policy. Buyers must verify product details. Chika is not liable for disputes use verified sellers for safety.",
       link: "Read more »"
     },
     {
       id: 3,
       title: "Sell",
-      image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=250&fit=crop",
+      image: SELL,
       description: "Sellers must list accurate product details and deliver on time. Fraud or misleading ads will be removed. Chika may suspend accounts violating marketplace policies.",
       link: "Read more »"
     },
     {
       id: 4,
       title: "Service",
-      image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=250&fit=crop",
+      image: SERVICE,
       description: "Service providers must be qualified and professional. Clients pay as agreed. Chika holds no liability for poor service reviews help maintain trusted, quality providers.",
       link: "Read more »"
     }

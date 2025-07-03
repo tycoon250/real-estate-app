@@ -128,13 +128,9 @@ const TYPES = {
 };
 
 const STATUSES = [
-  "Available",
-  "Pending",
-  "Sold",
-  "Rented",
-  "Under Construction",
-  "For Sale",
-  "Rental",
+  "For Buy",
+  "For Rent",
+
 ];
 
 const CreateProductForm = () => {
@@ -271,10 +267,10 @@ const CreateProductForm = () => {
     <div className="container px-6 py-8 mx-auto">
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-800">
-          Add New Property
+          Add New Product
         </h1>
         <p className="text-gray-600">
-          Fill in the details to create a new property listing
+          Fill in the details to create a new product listing
         </p>
       </div>
 
@@ -296,7 +292,7 @@ const CreateProductForm = () => {
                   value={formData.title}
                   onChange={handleChange}
                   className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                  placeholder="Enter property title"
+                  placeholder="Enter product title"
                   required
                 />
               </div>
@@ -307,14 +303,14 @@ const CreateProductForm = () => {
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-3 text-gray-500">
-                    $
+                    RWF
                   </span>
                   <input
                     type="number"
                     name="price"
                     value={formData.price}
                     onChange={handleChange}
-                    className="w-full p-3 pl-7 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                    className="w-full p-3 pl-7 mx-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                     placeholder="0.00"
                     required
                   />
@@ -332,7 +328,7 @@ const CreateProductForm = () => {
                 onChange={handleChange}
                 className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                 rows={4}
-                placeholder="Provide a detailed description of the property"
+                placeholder="Provide a detailed description of the product"
                 required
               />
             </div>
@@ -501,7 +497,7 @@ const CreateProductForm = () => {
           {/* Image Upload Section */}
           <div>
             <h2 className="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b">
-              Property Images
+              Product Images
             </h2>
 
             {/* Display Image Upload */}
@@ -646,7 +642,7 @@ const CreateProductForm = () => {
               ) : (
                 <>
                   <CheckCircle size={18} className="mr-2" />
-                  {user ? "Create Property" : "Login to Create"}
+                  {user ? "Create Product" : "Login to Create"}
                 </>
               )}
             </button>

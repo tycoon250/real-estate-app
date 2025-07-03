@@ -117,7 +117,7 @@ const TYPES = {
     "Personalized Gifts",
   ],
 };
-const STATUSES = ["Available", "Pending", "Sold", "Rented", "Under Construction", "For Sale", "Rental"];
+const STATUSES = ["For Buy", "For Rent", ];
 
 const UpdateProductForm = ({ id }) => {
   const navigate = useNavigate();

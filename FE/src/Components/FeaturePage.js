@@ -58,28 +58,21 @@ export default function ServicesCarouselSection() {
     {
       icon: "📱",
       title: "SERVICE",
-      description: "LGet expert services on Chika Online Market home repairs, cleaning, tech support, and more, delivered by trusted professionals near you."
+      description: "Get expert services on Chika Online Market home repairs, cleaning, tech support, and more, delivered by trusted professionals near you."
     }
   ];
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % Math.ceil(carouselItems.length / getItemsPerSlide()));
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + Math.ceil(carouselItems.length / getItemsPerSlide())) % Math.ceil(carouselItems.length / getItemsPerSlide()));
-  };
-
+  // Responsive items per slide
   const getItemsPerSlide = () => {
     if (typeof window !== 'undefined') {
-      if (window.innerWidth >= 1024) return 4;
-      if (window.innerWidth >= 768) return 2;
-      return 1;
+      if (window.innerWidth < 640) return 1; // Mobile
+      if (window.innerWidth < 1024) return 2; // Tablet
+      return 4; // Desktop
     }
     return 4;
   };
 
-  const [itemsPerSlide, setItemsPerSlide] = useState(4);
+  const [itemsPerSlide, setItemsPerSlide] = useState(getItemsPerSlide());
 
   React.useEffect(() => {
     const handleResize = () => {
@@ -94,58 +87,66 @@ export default function ServicesCarouselSection() {
     }
   }, []);
 
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % Math.ceil(carouselItems.length / itemsPerSlide));
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + Math.ceil(carouselItems.length / itemsPerSlide)) % Math.ceil(carouselItems.length / itemsPerSlide));
+  };
+
   return (
-    <div className="bg-gray-50 py-16">
-      <div className="container mx-auto px-4">
+    <div className="bg-gray-50 py-10 sm:py-16">
+      <div className="container mx-auto px-2 sm:px-4">
         
         {/* Services Section */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">
+        <div className="text-center mb-10 sm:mb-16">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-4">
             LOOKING FOR RENT. BUY. SELL. SERVE. ALL IN ONE PLACE
           </h2>
-          <p className="text-gray-600 max-w-3xl mx-auto text-sm lg:text-base leading-relaxed">
+          <p className="text-gray-600 max-w-3xl mx-auto text-xs sm:text-sm lg:text-base leading-relaxed">
             Highlights the four key functions your platform provides in one convenient location. 
             Emphasizes that users can find everything from products to services on your platform.
           </p>
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-10 sm:mb-20">
           {services.map((service, index) => (
             <div key={index} className="text-center group">
               {/* Icon Circle */}
-              <div className="w-24 h-24 bg-green-800 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-green-600 transition-colors duration-300">
-                <div className="text-3xl text-white">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 bg-green-800 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:bg-green-600 transition-colors duration-300">
+                <div className="text-2xl sm:text-3xl text-white">
                   {service.icon === "👨‍💻" && (
-                    <div className="w-10 h-10 bg-white rounded-sm flex items-center justify-center">
-                      <span className="text-green-500 font-bold text-lg">R</span>
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-sm flex items-center justify-center">
+                      <span className="text-green-500 font-bold text-base sm:text-lg">R</span>
                     </div>
                   )}
                   {service.icon === "🔧" && (
-                    <div className="w-10 h-10 bg-white rounded-sm flex items-center justify-center">
-                      <span className="text-green-500 font-bold text-lg">B</span>
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-sm flex items-center justify-center">
+                      <span className="text-green-500 font-bold text-base sm:text-lg">B</span>
                     </div>
                   )}
                   {service.icon === "💻" && (
-                    <div className="w-10 h-10 bg-white rounded-sm flex items-center justify-center">
-                      <span className="text-green-500 font-bold text-lg">R</span>
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-sm flex items-center justify-center">
+                      <span className="text-green-500 font-bold text-base sm:text-lg">R</span>
                     </div>
                   )}
                   {service.icon === "📱" && (
-                    <div className="w-10 h-10 bg-white rounded-sm flex items-center justify-center">
-                      <span className="text-green-500 font-bold text-lg">S</span>
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-sm flex items-center justify-center">
+                      <span className="text-green-500 font-bold text-base sm:text-lg">S</span>
                     </div>
                   )}
                 </div>
               </div>
               
               {/* Service Title */}
-              <h3 className="text-lg font-bold text-gray-800 mb-3 tracking-wide">
+              <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-2 sm:mb-3 tracking-wide">
                 {service.title}
               </h3>
               
               {/* Service Description */}
-              <p className="text-gray-600 text-sm leading-relaxed px-2">
+              <p className="text-gray-600 text-xs sm:text-sm leading-relaxed px-1 sm:px-2">
                 {service.description}
               </p>
             </div>
@@ -153,8 +154,8 @@ export default function ServicesCarouselSection() {
         </div>
 
         {/* Carousel Section */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-8">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-6 sm:mb-8">
              TERMS AND CONDITIONS
           </h2>
         </div>
@@ -165,21 +166,30 @@ export default function ServicesCarouselSection() {
             <div 
               className="flex transition-transform duration-500 ease-in-out"
               style={{
-                transform: `translateX(-${currentSlide * (100 / Math.ceil(carouselItems.length / itemsPerSlide))}%)`
+                width: `${(carouselItems.length / itemsPerSlide) * 100}%`,
+                transform: `translateX(-${currentSlide * (100 / (carouselItems.length / itemsPerSlide))}%)`
               }}
             >
               {carouselItems.map((item, index) => (
                 <div 
                   key={item.id}
-                  className={`flex-shrink-0 px-3 ${
+                  className={`flex-shrink-0 px-2 sm:px-3 ${
                     itemsPerSlide === 1 ? 'w-full' :
                     itemsPerSlide === 2 ? 'w-1/2' :
                     'w-1/4'
                   }`}
+                  style={{
+                    minWidth: itemsPerSlide === 1 ? '100%' :
+                        itemsPerSlide === 2 ? '50%' :
+                        '25%',
+                    maxWidth: itemsPerSlide === 1 ? '100%' :
+                        itemsPerSlide === 2 ? '50%' :
+                        '25%',
+                  }}
                 >
-                  <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                  <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
                     {/* Image */}
-                    <div className="h-48 bg-gray-200 overflow-hidden">
+                    <div className="h-36 sm:h-48 bg-gray-200 overflow-hidden">
                       <img 
                         src={item.image} 
                         alt={item.title}
@@ -188,13 +198,13 @@ export default function ServicesCarouselSection() {
                     </div>
                     
                     {/* Content */}
-                    <div className="p-6">
-                      <h3 className="text-lg font-bold text-gray-800 mb-3 hover:text-green-500 transition-colors cursor-pointer">
+                    <div className="p-4 sm:p-6 flex flex-col flex-1">
+                      <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-2 sm:mb-3 hover:text-green-500 transition-colors cursor-pointer">
                         {item.title}
                       </h3>
                       
                       {/* Meta Info */}
-                      <div className="flex items-center text-xs text-gray-500 mb-3 space-x-4">
+                      <div className="flex items-center text-xs text-gray-500 mb-2 sm:mb-3 space-x-2 sm:space-x-4">
                         <div className="flex items-center">
                           <Calendar size={12} className="mr-1" />
                           <span>{item.date}</span>
@@ -206,14 +216,14 @@ export default function ServicesCarouselSection() {
                       </div>
                       
                       {/* Description */}
-                      <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                      <p className="text-gray-600 text-xs sm:text-sm leading-relaxed mb-2 sm:mb-4 flex-1">
                         {item.description}
                       </p>
                       
                       {/* Read More Link */}
                       <a 
                         href="#" 
-                        className="text-green-500 text-sm font-medium hover:text-green-600 transition-colors"
+                        className="text-green-500 text-xs sm:text-sm font-medium hover:text-green-600 transition-colors mt-auto"
                       >
                         {item.link}
                       </a>
@@ -227,29 +237,32 @@ export default function ServicesCarouselSection() {
           {/* Navigation Arrows */}
           <button 
             onClick={prevSlide}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-gray-50"
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-2 sm:-translate-x-4 bg-white rounded-full p-2 sm:p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-gray-50"
             disabled={currentSlide === 0}
+            aria-label="Previous"
           >
-            <ChevronLeft size={20} className={`${currentSlide === 0 ? 'text-gray-300' : 'text-gray-600'}`} />
+            <ChevronLeft size={18} className={`${currentSlide === 0 ? 'text-gray-300' : 'text-gray-600'}`} />
           </button>
           
           <button 
             onClick={nextSlide}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-gray-50"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-2 sm:translate-x-4 bg-white rounded-full p-2 sm:p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-gray-50"
             disabled={currentSlide >= Math.ceil(carouselItems.length / itemsPerSlide) - 1}
+            aria-label="Next"
           >
-            <ChevronRight size={20} className={`${currentSlide >= Math.ceil(carouselItems.length / itemsPerSlide) - 1 ? 'text-gray-300' : 'text-gray-600'}`} />
+            <ChevronRight size={18} className={`${currentSlide >= Math.ceil(carouselItems.length / itemsPerSlide) - 1 ? 'text-gray-300' : 'text-gray-600'}`} />
           </button>
 
           {/* Dots Indicator */}
-          <div className="flex justify-center mt-8 space-x-2">
+          <div className="flex justify-center mt-6 sm:mt-8 space-x-1 sm:space-x-2">
             {Array.from({ length: Math.ceil(carouselItems.length / itemsPerSlide) }).map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
                   currentSlide === index ? 'bg-green-500' : 'bg-gray-300 hover:bg-gray-400'
                 }`}
+                aria-label={`Go to slide ${index + 1}`}
               />
             ))}
           </div>

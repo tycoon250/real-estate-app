@@ -18,7 +18,7 @@ import {
   Save
 } from 'lucide-react';
 import toast from "react-hot-toast"; 
-import { CATEGORIES, OPTIONS, STATUSES } from "../../utils/productGroupings";
+import { CATEGORIES, OPTIONS, STATUSES } from "../utils/productGroupings";
 const UpdateProductForm = ({ id }) => {
   const navigate = useNavigate();
   

@@ -522,7 +522,7 @@ export const searchProperties = asyncHandler(async (req, res) => {
   res.json(properties);
 });
 export const BrowseProperties = asyncHandler(async (req, res) => {
-    const { lookingFor, location, propertyType, propertySize, budget } = req.query,
+    const { budget } = req.query,
     {btype, categoryData,typeData} = req.body
     const query = {};
     // if (location) {

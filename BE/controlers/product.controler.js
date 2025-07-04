@@ -491,37 +491,31 @@ export const getAllWishlist = async (req, res) => {
 
 // @route  GET /api/properties/search
 export const searchProperties = asyncHandler(async (req, res) => {
-  const { lookingFor, location, propertyType, propertySize, budget } = req.query;
+  const { needle } = req.params,
+  {filters} = req.body
 
   const query = {};
 
-  if (location) {
-    query.location = { $regex: location, $options: "i" };
+  if (needle) {
+    query.$or = [
+      { title: { $regex: needle, $options: "i" } },
+      { description: { $regex: needle, $options: "i" } },
+      { type: { $regex: needle, $options: "i" } },
+      { category: { $elemMatch: { $regex: needle, $options: "i" } } },
+    ];
   }
 
-  if (propertyType) {
-    query.type = propertyType;
-  }
-
-  if (budget) {
-    const maxPrice = Number(budget);
-    if (!isNaN(maxPrice)) {
-      query.price = { $lte: maxPrice };
+  if (filters) {
+    if (filters.category) {
+      query.category = { $in: [filters.category] }; // Match category exactly
+    }
+    if (filters.type) {
+      query.type = filters.type; // Match type exactly
+    }
+    if (filters.status) {
+      query.status = filters.status; // Match status exactly
     }
   }
-
-  if (lookingFor) {
-    query.status = lookingFor;
-  }
-
-  // Optionally filter by property size (if interpreted as minimum number of beds)
-  if (propertySize) {
-    const minBeds = Number(propertySize);
-    if (!isNaN(minBeds)) {
-      query.beds = { $gte: minBeds };
-    }
-  }
-
   // Execute the query
   const properties = await Product.find(query);
 

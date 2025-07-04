@@ -77,6 +77,6 @@ productRouter.delete(
 
 // Get user's wishlist
 productRouter.get("/wishlist/all", authenticate, getAllWishlist);
-productRouter.get("/search", searchProperties);
+productRouter.post("/search/:needle?", searchProperties);
 productRouter.post("/browse",BrowseProperties)
 

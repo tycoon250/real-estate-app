@@ -57,8 +57,6 @@ const Browse = () => {
     // For now, we'll just use an empty array
     setWishlist([])
   }
- 
-  console.log(filters)
   const fetchSearchResults = async (btype,categoryData,typeData) => {
     setIsLoading(true)
     try {

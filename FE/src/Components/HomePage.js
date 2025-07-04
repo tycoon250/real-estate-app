@@ -7,7 +7,7 @@ import cars from "../Assets/cars.jpeg";
 import carRental from "../Assets/car-rental.png"
 import clothes from "../Assets/clothes.png"
 import electronicDevices from "../Assets/electronic-devices.png";
-
+import { motion, AnimatePresence } from "framer-motion";
 
 const HomePage = () => {
   const [filters, setFilters] = useState({
@@ -19,45 +19,48 @@ const HomePage = () => {
   });
 
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [placeholderIndex, setPlaceholderIndex] = useState(0),
+  [SearchVal,setSearchVal] = useState("");
+  const demoPlaceholders = [
+    "spider hoodie",
+    "gaming laptop",
+    "leather office chair",
+    "wireless earbuds",
+    "smart home kit"
+  ];
+
   const slides = [
     { image: house, title: "Market-backed valuations Rental yield data on every listing" },
     { image: carRental, title: "Whether a week or a lifetime, your car awaits." },
     { image: clothes, title: "Size-inclusive fits, fresh drops weekly." },
-    { image: electronicDevices, title: "	Mobiles, appliances, office tech—one checkout, fast delivery." },
+    { image: electronicDevices, title: "Mobiles, appliances, office tech — one checkout, fast delivery." },
   ];
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const interval = setInterval(() => {
+      // Don't change placeholder if user is typing
+      if (!SearchVal.trim()) {
+        setPlaceholderIndex((prev) => (prev + 1) % demoPlaceholders.length);
+      }
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000); // Change slide every 5 seconds
+    }, 3000);
+  
     return () => clearInterval(interval);
-  }, [slides.length]);
-
+  }, [slides.length, SearchVal]);
+  
   const handleSearch = (e) => {
     e.preventDefault();
-
     const queryParams = new URLSearchParams();
-    if (filters.lookingFor) queryParams.append("lookingFor", filters.lookingFor);
-    if (filters.location) queryParams.append("location", filters.location);
-    if (filters.propertyType) queryParams.append("propertyType", filters.propertyType);
-    if (filters.propertySize) queryParams.append("propertySize", filters.propertySize);
-    if (filters.budget) queryParams.append("budget", filters.budget);
-
-    navigate(`/search?${queryParams.toString()}`);
-  };
-
-  const scrollToNextSection = () => {
-    window.scrollTo({
-      top: window.innerHeight,
-      behavior: "smooth",
+    Object.entries(filters).forEach(([key, val]) => {
+      if (val) queryParams.append(key, val);
     });
+    navigate(`/search/${SearchVal}`);
   };
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
       <div className="relative h-[100vh] overflow-hidden mt-[-112px]">
         {/* Slideshow */}
         <div className="absolute inset-0">
@@ -66,9 +69,7 @@ const HomePage = () => {
               key={index}
               src={slide.image}
               alt={`Slide ${index + 1}`}
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
-                index === currentSlide ? "opacity-100" : "opacity-0"
-              }`}
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
             />
           ))}
         </div>
@@ -77,115 +78,51 @@ const HomePage = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/70 to-gray-900/50"></div>
 
         {/* Hero Text */}
-        <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-4 sm:px-6 lg:px-10">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white text-center">
+        <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-4 sm:px-6 lg:px-10 text-center">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white">
             {slides[currentSlide].title}
           </h1>
         </div>
-          <div className="absolute top-2/3 left-1/2  transform -translate-x-1/2 -translate-y-1/4 px-4 sm:px-6 lg:px-10">
-            <div className="max-w-4xl mx-auto text-white">
-                    <div className="p-6 sm:p-10 bg-white/30 backdrop-orange-md  rounded-3xl shadow-2xl border border-white/20">
-                      <form onSubmit={handleSearch} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 sm:gap-6">
-                      {/* <div className="flex flex-col">
-                        <label className="mb-2 text-sm text-white font-bold">Looking for</label>
-                        <select
-                        className="p-2 border rounded-md border-gray-300 text-gray-800 w-full"
-                        value={filters.lookingFor}
-                        onChange={(e) => setFilters({ ...filters, lookingFor: e.target.value })}
-                        >
-                        <option value="">Choose</option>
-                        <option value="Available">Available</option>
-                        <option value="For Sale">Buy</option>
-                        <option value="Rental">Rent</option>
-                        </select>
-                      </div> */}
 
-                      <div className="flex flex-col">
-                        <label className="">&nbsp;</label>
-                        <input
-                        type="text"
-                        placeholder="Name"
-                        className="absolute bottom-12 left-1/2 transform -translate-x-1/2 bg-white text-black px-4 py-2 rounded-full shadow-lg hover:bg-gray-200 transition "
-                        value={filters.location}
-                        onChange={(e) => setFilters({ ...filters, location: e.target.value })}
-                        />
-                        
-                      </div>
-                      <div className="flex flex-col">
-                        <label className="">&nbsp;</label>
-                        <button
-                        type="submit"
-                        className="absolute mx-8 bottom-12  left-1/2  transform-translate-x-1/2 bg-white text-black px-4 py-2 rounded-full shadow-lg hover:bg-gray-200 transition"
-                        >
-                        {/* <Search className="" /> */}
-                        <span>Search </span>
-                        </button>
-                      </div>
+        {/* Alibaba-style Search Bar */}
+        <div className="absolute top-2/3 w-full flex justify-center px-4 sm:px-6 lg:px-10">
+          <form
+            onSubmit={handleSearch}
+            className="w-full max-w-3xl mx-auto mt-4 flex rounded-full overflow-hidden bg-white shadow-2xl border border-orange-500"
+          >
+            <div className="relative flex-grow">
+            <input
+                type="text"
+                placeholder={demoPlaceholders[placeholderIndex]}
+                value={SearchVal}
+                onChange={(e) => setSearchVal(e.target.value)}
+                className="w-full px-6 py-4 text-lg text-gray-700 focus:outline-none placeholder-gray-500 transition duration-300"
+              />
 
-                      {/* <div className="flex flex-col">
-                        <label className="mb-2 text-sm text-white font-bold">Property Type</label>
-                        <select
-                        className="p-2 border rounded-md border-gray-300 text-gray-800 w-full"
-                        value={filters.propertyType}
-                        onChange={(e) => setFilters({ ...filters, propertyType: e.target.value })}
-                        >
-                        <option value="">Select type</option>
-                        <option value="House">House</option>
-                        <option value="Office">Office</option>
-                        <option value="Land">Land</option>
-                        <option value="Apartment/Condo">Apartment</option>
-                        <option value="Commercial Space">Commercial</option>
-                        <option value="Industrial Property">Industrial Property</option>
-                        </select>
-                      </div> */}
+            </div>
 
-                      {/* <div className="flex flex-col">
-                        <label className="mb-2 text-sm text-white font-bold">Property size</label>
-                        <input
-                        type="text"
-                        placeholder="Any size"
-                        className="p-2 border rounded-md border-gray-300 text-gray-800 w-full"
-                        value={filters.propertySize}
-                        onChange={(e) => setFilters({ ...filters, propertySize: e.target.value })}
-                        />
-                      </div> */}
-{/* 
-                      <div className="flex flex-col">
-                        <label className="mb-2 text-sm text-white font-bold">Your Budget</label>
-                        <input
-                        type="text"
-                        placeholder="Enter budget"
-                        className="p-2 border rounded-md border-gray-300 text-gray-800 h-full w-full"
-                        value={filters.budget}
-                        onChange={(e) => setFilters({ ...filters, budget: e.target.value })}
-                        />
-                      </div> */}
+            <button
+              type="button"
+              className="px-5 flex items-center justify-center border-l border-gray-200 bg-white hover:bg-gray-100"
+              title="Visual Search (coming soon)"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-gray-600">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V12m0 0V7.5m0 4.5h4.5M12 12H7.5m13.5 0A9 9 0 1112 3a9 9 0 0113.5 9z" />
+              </svg>
+            </button>
 
-                      {/* <div className="flex flex-col">
-                        <label className="mb-2 text-sm text-white font-bold">&nbsp;</label>
-                        <button
-                        type="submit"
-                        className="absolute bottom-12 transform -translate-x-1/2 bg-white text-black px-14 py-2 rounded-full shadow-lg transition"
-                        >
-                        <Search className="h-5 w-5" />
-                        <span>Search </span>
-                        </button>
-                      </div> */}
-                      </form>
-                    </div>
-                    </div>
-                  </div>
-
-                  {/* Scroll Button */}
-        {/* <button
-          onClick={scrollToNextSection}
-          className="absolute bottom-12 left-1/2 transform -translate-x-1/2 bg-white text-black px-4 py-2 rounded-full shadow-lg hover:bg-gray-200 transition"
-        >
-          Scroll Down
-        </button> */}
+            <button
+              type="submit"
+              className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-4 font-semibold text-lg"
+            >
+              Search
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
 };
 
 export default HomePage;
+

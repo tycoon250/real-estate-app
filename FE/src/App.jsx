@@ -76,7 +76,7 @@ const AppRoutes = () => {
         {/* wishlist page */}
         {/* end of wishlist page */}
           <Route path="/all" element={<AllProducts />} />
-          <Route path="/search" element={<SearchPage />} />
+          <Route path="/search/:string?" element={<SearchPage />} />
           <Route path="/browse/:btype/:category/:type?" element={<Browse />} />
 
           <Route path="/product/:slug?" element={<ProductDetails />} />

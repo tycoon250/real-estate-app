@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
-import { Search } from "lucide-react"
+import { Filter, Search } from "lucide-react"
 import ProductCard from "../Components/reuserbleProductCard/ProductCard"
 import { CATEGORIES, OPTIONS, STATUSES } from "../utils/productsGroupings";
 
@@ -13,8 +13,22 @@ const Browse = () => {
   const { category,type,btype } = useParams();
   const [catData,setCatData] = useState({})
   const [typData,setTypeData] = useState({})
-  const API_URL = process.env.REACT_APP_API_URL;
-
+  const API_URL = process.env.REACT_APP_API_URL,
+  [filters, setFilters] = useState(
+    btype === 'type'
+      ? {
+          category: CATEGORIES.find((cat) => cat.id === category)?.name || "",
+          type: OPTIONS[CATEGORIES.find((cat) => cat.id === category)?.name]?.find((t) => t.id === type) || "",
+          status: "",
+          budget: "",
+        }
+      : {
+        category: "",
+        type:  "",
+        status: category.replace(/-/g, ' ') || "",
+        budget: "",
+      }
+  )
   // Parse query parameters from URL
   const queryParams = new URLSearchParams(location.search)
   // Fetch search results when component mounts or URL changes
@@ -43,31 +57,8 @@ const Browse = () => {
     // For now, we'll just use an empty array
     setWishlist([])
   }
-  const [filters, setFilters] = useState(() => {
-    if (btype === "availability") {
-      return {
-        category: "",
-        type: "",
-        status: category.replace(/-/g, " "),
-        budget: "",
-      };
-    } else if (btype === "type") {
-      return {
-        category: catData?.name,
-        type: typData?.label,
-        status: "",
-        budget: "",
-      };
-    } else {
-      return {
-        category: queryParams.get("category") || "",
-        type: queryParams.get("type") || "",
-        status: queryParams.get("status") || "",
-        budget: "",
-      };
-    }
-  });
-  console.log(typData,catData)
+ 
+  console.log(filters)
   const fetchSearchResults = async (btype,categoryData,typeData) => {
     setIsLoading(true)
     try {
@@ -207,8 +198,8 @@ const Browse = () => {
                   type="submit"
                   className="p-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 w-full"
                 >
-                  <Search className="h-5 w-5" />
-                  <span>Search</span>
+                  <Filter className="h-5 w-5" />
+                  <span>Filter</span>
                 </button>
               </div>
             </form>

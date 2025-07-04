@@ -24,37 +24,12 @@ import {
   authenticateAdminToken,
   authenticateUserOrAdmin,
 } from "../middlewares/auth.middleware.js";
+import { cloudinaryStorage } from "../controlers/upload.controller.js";
 
 export const productRouter = express.Router();
 
-// Create directories if they don't exist
-const productImageDir = "./uploads/product-image";
-const displayImageDir = "./uploads/display-image";
-if (!fs.existsSync(productImageDir))
-  fs.mkdirSync(productImageDir, { recursive: true });
-if (!fs.existsSync(displayImageDir))
-  fs.mkdirSync(displayImageDir, { recursive: true });
 
-// Configure Multer storage
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const isDisplayImage = file.fieldname === "displayImage";
-    const isNewImage = file.fieldname === "newImages";
-    const dir = isDisplayImage
-      ? displayImageDir
-      : isNewImage
-      ? productImageDir // Store newImages in product-images directory
-      : productImageDir;
-    cb(null, dir);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    const ext = path.extname(file.originalname);
-    cb(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
-  },
-});
-
-const upload = multer({ storage });
+const upload = multer({ storage: cloudinaryStorage });
 
 // Product creation route
 productRouter.post(

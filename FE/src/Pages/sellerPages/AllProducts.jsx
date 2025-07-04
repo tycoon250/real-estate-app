@@ -348,9 +348,9 @@ const SellerProperties = () => {
                         <td className="px-6 py-4">
                           <div className="flex items-center">
                             <div className="h-10 w-10 rounded bg-gray-200 flex-shrink-0 mr-3">
-                              {product.displayImage && product.displayImage ? (
+                              {product.displayImage.path && product.displayImage.path ? (
                                 <img
-                                  src={`${API_URL}${product.displayImage}`}
+                                  src={product.displayImage.path}
                                   alt={product.title}
                                   className="h-10 w-10 object-cover rounded"
                                 />

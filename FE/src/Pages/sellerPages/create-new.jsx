@@ -25,117 +25,10 @@ import {
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useAuthContext } from "../../Components/sellerComponents/AuthContext";
+import { CATEGORIES, OPTIONS, STATUSES } from "../../utils/productsGroupings";
 const API_URL = process.env.REACT_APP_API_URL;
 // Define option arrays
-const CATEGORIES = [
-  "Electronics",
-  "Fashion",
-  "Home & Living",
-  "Beauty & Personal Care",
-  "Health & Wellness",
-  "Sports & Outdoors",
-  "Baby & Kids",
-  "Groceries & Food",
-  "Books & Stationery",
-  "Automotive",
-  "Pets Supplies",
-  "Tools & Hardware",
-  "Gifts & Special Occasions",
-];
 
-const TYPES = {
-  Electronics: [
-    "Mobile Phones & Accessories",
-    "Computers & Tablets",
-    "TVs & Audio",
-    "Cameras & Drones",
-    "Gaming Consoles",
-  ],
-  Fashion: [
-    "Men’s Clothing",
-    "Women’s Clothing",
-    "Kids' Clothing",
-    "Shoes & Footwear",
-    "Bags & Accessories",
-    "Jewelry & Watches",
-  ],
-  "Home & Living": [
-    "Furniture",
-    "Home Décor",
-    "Kitchenware",
-    "Bedding & Linen",
-    "Lighting",
-  ],
-  "Beauty & Personal Care": [
-    "Skincare",
-    "Makeup",
-    "Hair Care",
-    "Fragrances",
-    "Men's Grooming",
-  ],
-  "Health & Wellness": [
-    "Supplements & Vitamins",
-    "Fitness Equipment",
-    "Medical Supplies",
-    "Personal Protective Equipment",
-  ],
-  "Sports & Outdoors": [
-    "Fitness Equipment",
-    "Outdoor Gear",
-    "Bicycles & Accessories",
-    "Camping & Hiking",
-  ],
-  "Baby & Kids": [
-    "Baby Clothing",
-    "Toys & Games",
-    "Baby Gear (Strollers, Car Seats)",
-    "School Supplies",
-  ],
-  "Groceries & Food": [
-    "Fresh Produce",
-    "Snacks & Beverages",
-    "Health Foods",
-    "Organic Products",
-  ],
-  "Books & Stationery": [
-    "Fiction & Non-Fiction",
-    "Academic Books",
-    "Office Supplies",
-    "Art Supplies",
-  ],
-  Automotive: [
-    "Car Accessories",
-    "Motorbike Accessories",
-    "Tools & Equipment",
-    "Vehicle Electronics",
-  ],
-  "Pets Supplies": [
-    "Pet Food",
-    "Toys & Accessories",
-    "Pet Care Products",
-  ],
-  "Tools & Hardware": [
-    "Power Tools",
-    "Hand Tools",
-    "Building Materials",
-    "Electrical Equipment",
-  ],
-  "Gifts & Special Occasions": [
-    "Gift Cards",
-    "Seasonal Items (e.g. Christmas, Valentine's Day)",
-    "Personalized Gifts",
-  ],
-};
-
-const STATUSES = [
-  "Available",
-  "Pending",
-  "Sold",
-  "Rented",
-  "Under Construction",
-  "For Sale",
-  "Rental",
-];
 
 const CreateProductForm = () => {
   const navigate = useNavigate();
@@ -172,7 +65,6 @@ const CreateProductForm = () => {
       [name]: value,
     }));
   };
-console.log(user)
   // Handle display image upload
   const handleDisplayImageChange = (e) => {
     const file = e.target.files?.[0];
@@ -358,8 +250,8 @@ console.log(user)
                 >
                   <option value="">Select Category</option>
                   {CATEGORIES.map((cat) => (
-                    <option key={cat} value={cat}>
-                      {cat}
+                    <option key={cat.id} value={cat.name}>
+                      {cat.name}
                     </option>
                   ))}
                 </select>
@@ -377,9 +269,9 @@ console.log(user)
                   required
                 >
                   <option value="">Select Type</option>
-                  {TYPES[formData.category]?.map((type) => (
-                    <option key={type} value={type}>
-                      {type}
+                  {OPTIONS[formData.category]?.map((type) => (
+                    <option key={type.id} value={type.label}>
+                      {type.label}
                     </option>
                   ))}
                 </select>

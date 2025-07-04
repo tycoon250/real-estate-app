@@ -32,12 +32,12 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
     displayImage: {
-      type: String,
+      type: Object,
       required: true,
     },
 
     image: {
-      type: [String],
+      type: [Object],
       required: true,
     },
     status: {

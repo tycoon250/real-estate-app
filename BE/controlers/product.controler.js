@@ -10,6 +10,7 @@ const __dirname = path.dirname(__filename);
 import { Product } from "../models/product.model.js";
 import { Wishlist } from "../models/wishlist.model.js";
 import { User } from "../models/user.model.js";
+import cloudinary from "./cloudinary.controller.js";
 
 //create a new product
 export const createProduct = async (req, res) => {
@@ -37,10 +38,16 @@ export const createProduct = async (req, res) => {
     const slug = title.toLowerCase().replace(/\s+/g, "-");
 
     // Get file paths
-    const displayImage = `/uploads/display-image/${req.files.displayImage[0].filename}`;
-    const images = req.files.images.map(
-      (file) => `/uploads/product-image/${file.filename}`
-    );
+    const displayImage = {
+      path: req.files.displayImage[0].path,
+      public_id: req.files.displayImage[0].filename
+    };
+    
+    const images = req.files.images.map((file) => ({
+      path: file.path,
+      public_id: file.filename
+    }));
+       
     // Create the product
     const product = new Product({
       title,
@@ -223,42 +230,51 @@ export const updateProduct = async (req, res) => {
       specifications
     } = req.body;
     let { removedImages } = req.body;
-
-    // Ensure `removedImages` is parsed and defaults to an array
     if (typeof removedImages === "string") {
-      removedImages = JSON.parse(removedImages); // Parse JSON string if necessary
+      removedImages = JSON.parse(removedImages);
     }
     removedImages = Array.isArray(removedImages) ? removedImages : [];
 
-    console.log("removedImages:", removedImages);
-
-    // Find the product
     const product = await Product.findById(req.params.id);
     if (!product) return res.status(404).json({ message: "Product not found" });
-
-    // Generate slug only if the title is updated
     if (title) {
       product.slug = title.toLowerCase().replace(/\s+/g, "-");
     }
-    console.log(specifications)
-    // Remove images from the server and database
+    // Delete all existing product images from Cloudinary
+    if (product.image && product.image.length > 0) {
+      for (const img of product.image) {
+        cloudinary.uploader.destroy(img.public_id);
+      }
+    }
+    // Delete the existing display image from Cloudinary
+    if (product.displayImage && product.displayImage.public_id) {
+       cloudinary.uploader.destroy(product.displayImage.public_id);
+    }
+
+    // Assign the new display image to the product
+    if (req.files.displayImage) {
+      const newDisplayImage = {
+        path: req.files.displayImage[0].path,
+        public_id: req.files.displayImage[0].filename,
+      };
+      product.displayImage = newDisplayImage;
+    }
     if (removedImages && removedImages.length > 0) {
       removedImages.forEach((image) => {
-        const filePath = path.join(__dirname, "..", image);
-        if (fs.existsSync(filePath)) {
-          fs.unlinkSync(filePath); // Delete the file from the server
-        }
-        // Remove the image path from the product's images array
-        product.image = product.image.filter((img) => img !== image);
+        cloudinary.uploader.destroy(image.public_id);
+        product.image = product.image.filter((img) => img.path !== image.path);
       });
     }
 
-    // Add newly uploaded images
-    if (req.files.newImages) {
-      const newImages = req.files.newImages.map(
-        (file) => `/uploads/product-image/${file.filename}`
+    if (req.files.images) {
+      const images = req.files.images.map(
+      (file) => ({ path: file.path, public_id: file.filename })
       );
-      product.image.push(...newImages);
+      images.forEach((image) => {
+      if (!product.image.some((img) => img.path === image.path)) {
+        product.image.push(image);
+      }
+      });
     }
 
     // Update other fields

@@ -124,7 +124,7 @@ const ProductPage = () => {
           onClick={() => navigate("/all")}
           className="px-6 py-3 text-green-600 border-2 border-green-600 rounded-full hover:bg-green-50 transition-colors duration-200"
         >
-          View all properties →
+          View all procudts →
         </button>
       </div>
     </div>

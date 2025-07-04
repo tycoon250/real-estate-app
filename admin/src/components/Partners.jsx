@@ -245,7 +245,7 @@ function Partners() {
                   className="bg-gray-50 rounded-lg p-6 flex flex-col items-center group relative hover:shadow-md transition duration-200"
                 >
                   <img
-                    src={`${API_URL}${partner.logo}`}
+                    src={`${partner.logo.path}`}
                     alt={`${partner.name} logo`}
                     className="h-24 w-24 object-contain mb-3"
                   />

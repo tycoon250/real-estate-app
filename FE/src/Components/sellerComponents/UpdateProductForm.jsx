@@ -10,15 +10,15 @@ import {
   Bed, 
   Droplet, 
   X, 
-  Upload, 
+  Upload,
+  PlusCircle,
+  Notebook,
+  Trash2, 
   Image as ImageIcon,
   Save
 } from 'lucide-react';
 import toast from "react-hot-toast"; // Import react-hot-toast
-
-const CATEGORIES = ["Residential", "Commercial", "Land", "Industrial", "Luxury", "Vacation Rentals"];
-const TYPES = ["House", "Office", "Apartment/Condo", "Land", "Commercial Space", "Industrial Property"];
-const STATUSES = ["Available", "Pending", "Sold", "Rented", "Under Construction", "For Sale", "Rental"];
+import { CATEGORIES,OPTIONS,STATUSES } from '../../utils/productsGroupings';
 
 
 const UpdateProductForm = ({ id }) => {
@@ -34,6 +34,7 @@ const UpdateProductForm = ({ id }) => {
     location: "",
     beds: "",
     baths: "",
+    specifications: {}
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -44,6 +45,9 @@ const UpdateProductForm = ({ id }) => {
   const [removedImages, setRemovedImages] = useState([]);
   const [imagesPreviews, setImagesPreviews] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
+  const [currSpecName, setCurSpecName] = useState(''),
+  [currSpecVal, setCurSpecVal] = useState('')
+  const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -64,14 +68,15 @@ const UpdateProductForm = ({ id }) => {
           location: product.location || "",
           beds: product.beds?.toString() || "",
           baths: product.baths?.toString() || "",
+          specifications: product.specifications || {}
         });
 
-        setDisplayImagePreview(product.displayImage ? 
-          `${process.env.REACT_APP_API_URL}${product.displayImage}` : "");
+        setDisplayImagePreview(product.displayImage.path ? 
+          product.displayImage.path : "");
         
         const images = Array.isArray(product.image) ? product.image : [];
         setExistingImages(images);
-        setImagesPreviews(images.map((img) => `${process.env.REACT_APP_API_URL}${img}`));
+        setImagesPreviews(images.map((img) => img.path));
       } catch (error) {
         console.error("Error fetching product:", error);
         toast.error("Failed to load product data");
@@ -144,7 +149,7 @@ const UpdateProductForm = ({ id }) => {
       const formDataToSend = new FormData();
       
       Object.entries(formData).forEach(([key, value]) => {
-        formDataToSend.append(key, value);
+        formDataToSend.append(key, typeof value === "object" ? JSON.stringify(value) : value);
       });
 
       if (displayImage) {
@@ -257,7 +262,7 @@ const UpdateProductForm = ({ id }) => {
             >
               <option value="">Select Category</option>
               {CATEGORIES.map((cat) => (
-                <option key={cat} value={cat}>{cat}</option>
+                <option key={cat.id} value={cat.name}>{cat.name}</option>
               ))}
             </select>
           </div>
@@ -276,8 +281,8 @@ const UpdateProductForm = ({ id }) => {
               required
             >
               <option value="">Select Type</option>
-              {TYPES.map((type) => (
-                <option key={type} value={type}>{type}</option>
+              {OPTIONS[formData.category]?.map((type) => (
+                <option key={type.id} value={type.label}>{type.label}</option>
               ))}
             </select>
           </div>
@@ -303,57 +308,98 @@ const UpdateProductForm = ({ id }) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {/* Location field */}
-          <div className="space-y-2">
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
-              <MapPin size={16} />
-              <span>Location</span>
-            </label>
-            <input
-              type="text"
-              name="location"
-              value={formData.location}
-              onChange={handleChange}
-              className="w-full p-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-              required
-              placeholder="Enter location"
-            />
-          </div>
-
-          {/* Beds field */}
-          <div className="space-y-2">
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
-              <Bed size={16} />
-              <span>Beds</span>
-            </label>
-            <input
-              type="number"
-              name="beds"
-              value={formData.beds}
-              onChange={handleChange}
-              className="w-full p-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-              placeholder="Number of beds"
-            />
-          </div>
-
-          {/* Baths field */}
-          <div className="space-y-2">
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
-              <Droplet size={16} />
-              <span>Baths</span>
-            </label>
-            <input
-              type="number"
-              name="baths"
-              value={formData.baths}
-              onChange={handleChange}
-              className="w-full p-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-              placeholder="Number of baths"
-            />
-          </div>
-        </div>
-
+        <div className="mt-4 space-y-2">
+              <h2 className="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b">
+                Product Specifications
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">
+                    <div className="flex items-center gap-2">
+                      <Tag size={16} />
+                      <span>Specification Name</span>
+                    </div>
+                  </label>
+                  <input
+                    type="text"
+                    name="specName"
+                    value= {currSpecName}
+                    onChange={(e)=>setCurSpecName(e.target.value)}
+                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                    placeholder="Specification name (e.g. Color, Size, etc.)"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">
+                    <div className="flex items-center gap-2">
+                      <Notebook size={16} />
+                      <span>specification value</span>
+                    </div>
+                  </label>
+                  <input
+                    type="text"
+                    name="specVal"
+                    value={currSpecVal}
+                    onChange={(e)=>setCurSpecVal(e.target.value)}
+                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                    placeholder="Specification value (e.g. Red, Large, etc.)"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <div className="p-1.5"></div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (currSpecName && currSpecVal) {
+                        setFormData((prev) => ({
+                          ...prev,
+                          specifications: {
+                            ...prev.specifications,
+                            [currSpecName]: currSpecVal,
+                          },
+                        }));
+                        setCurSpecName("");
+                        setCurSpecVal("");
+                      }}}
+                      className="p-3 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-200 font-medium flex items-center gap-2"
+                      >
+                      <PlusCircle size={16} />
+                      Add
+                  </button>
+                </div>
+              </div>
+                {/* Render Specifications */}
+              <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-6">
+                {formData.specifications &&
+                  Object.entries(formData.specifications).map(([key, value], index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between p-4 border border-gray-300 rounded-lg shadow-sm mb-3 bg-gray-50 hover:bg-gray-100 transition-colors"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Tag size={20} className="text-blue-500" />
+                        <div>
+                          <p className="text-sm font-semibold text-gray-800">{key}</p>
+                          <p className="text-sm text-gray-600">{value}</p>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setFormData((prev) => {
+                            const updatedSpecs = { ...prev.specifications };
+                            delete updatedSpecs[key];
+                            return { ...prev, specifications: updatedSpecs };
+                          });
+                        }}
+                        className="text-red-500 hover:text-red-700 transition-colors flex items-center gap-1 cursor-pointer"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
+                  ))}
+              </div>
+            </div>
         {/* Display Image section */}
         <div className="space-y-2 mb-8">
           <label className="flex items-center gap-2 text-sm font-medium text-gray-700">

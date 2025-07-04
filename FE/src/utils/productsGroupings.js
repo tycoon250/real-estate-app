@@ -171,12 +171,7 @@ CATEGORIES.forEach((category) => {
     }
 })
 export const STATUSES = [
-  "Available",
-  "Pending",
-  "Sold",
-  "Rented",
-  "Under Construction",
-  "For Sale",
-  "Rental",
+  "For Buy",
+  "For Rent",
 ];
   

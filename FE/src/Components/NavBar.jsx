@@ -7,7 +7,7 @@ import { useAuth } from "../hooks/useAuth";
 import { UserMenu } from "./user-menu";
 import Logo from "../Assets/Logo.png"
 
-const CATEGORIES = ["For Sale", "Rental", "Services", "About Us", "Help Center", ]
+const CATEGORIES = ["For Buy", "For Rent", "Services", "About Us", "Help Center", ]
 
 export const Navbar = () => {
   const [openDropdown, setOpenDropdown] = useState(null);

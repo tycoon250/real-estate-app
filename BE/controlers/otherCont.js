@@ -6,6 +6,8 @@ import fs from "fs"
 import asyncHandler from "express-async-handler";
 import { config } from "dotenv";
 import Partner from "../models/Partner.js";
+import { cloudinaryStorage } from "./upload.controller.js";
+import cloudinary from "./cloudinary.controller.js";
 config()
 
 
@@ -53,17 +55,6 @@ export const sendEmail = asyncHandler(async (req, res) => {
 
 
 // Set up storage engine using diskStorage
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      // Folder to store uploaded partner logos
-      cb(null, "uploads/partners");
-    },
-    filename: (req, file, cb) => {
-      // Create a unique filename using the current timestamp
-      const ext = path.extname(file.originalname);
-      cb(null, `${Date.now()}-${file.fieldname}${ext}`);
-    },
-  });
 
 
 
@@ -77,29 +68,32 @@ const fileFilter = (req, file, cb) => {
   };
 
   
-export const uploadLogo = multer({ storage, fileFilter }).single("logo");
+export const uploadLogo = multer({ storage: cloudinaryStorage, fileFilter }).single("logo");
 
 
 
 export const uploadPartnerLogo = asyncHandler(async (req, res) => {
-  console.log("req file:",req.file)
   if (!req.file) {
     res.status(400);
     throw new Error("No file uploaded");
   }
-
   const { name } = req.body; 
-
   if (!name) {
     res.status(400);
     throw new Error("Partner name is required");
   }
+  // Extract Cloudinary file details
+  const { path: logoPath, filename: fileId } = req.file;
 
   // Save to the database
   const newPartner = await Partner.create({
     name,
-    logo: `/uploads/partners/${req.file.filename}`,
+    logo: {
+      path: logoPath,
+      file_id: fileId,
+    },
   });
+  // Save to the database
 
   res.status(201).json({
     message: "Logo uploaded successfully",
@@ -118,18 +112,11 @@ export const deletePartnerLogo = asyncHandler(async (req, res) => {
     throw new Error("Partner not found");
   }
 
-  // Get logo file path
-  const logoPath = path.join("uploads", "partners", path.basename(partner.logo));
-
   // Delete the partner from the database
   await partner.deleteOne();
 
   // Remove logo file from disk
-  fs.unlink(logoPath, (err) => {
-    if (err) {
-      console.error("Error deleting logo file:", err.message);
-    }
-  });
+  cloudinary.uploader.destroy(partner.logo.file_id);
 
   res.json({ message: "Partner and logo deleted successfully" });
 });

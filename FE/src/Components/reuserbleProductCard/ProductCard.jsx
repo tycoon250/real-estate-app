@@ -66,7 +66,7 @@ const ProductCard = ({ product, onToggleWishlist, isWishlisted = false }) => {
         {/* Image Container */}
         <div className="relative aspect-[4/3]">
           <img
-            src={`${API_URL}${product.displayImage}` || "/placeholder.svg"}
+            src={product.displayImage.path || "/placeholder.svg"}
             alt={product.title}
             className="w-full h-full object-contain"
             onError={(e) => {
@@ -146,7 +146,7 @@ const ProductCard = ({ product, onToggleWishlist, isWishlisted = false }) => {
 
           <div className="flex justify-between items-center mt-4">
             <span className="text-xl font-bold text-blue-600">
-              ${product.price.toLocaleString()}
+              {product.price.toLocaleString()} RWF
             </span>
             <span className="text-sm text-gray-500">
               {new Date(product.createdAt).toLocaleDateString()}

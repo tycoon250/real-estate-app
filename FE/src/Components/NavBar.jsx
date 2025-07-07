@@ -1,24 +1,21 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ChevronDown, ChevronLeft, ChevronRight, Menu } from "lucide-react";
-import { DropdownMenu } from "./dropdown-menu";
+import { Menu } from "lucide-react";
 import { MobileMenu } from "./mobile-menu";
 import { useAuth } from "../hooks/useAuth";
 import { UserMenu } from "./user-menu";
-import Logo from "../Assets/Logo.png"
+import Logo from "../Assets/Logo.png";
 
-const CATEGORIES = ["For Buy", "For Rent", "Services", "About Us", "Help Center", ]
+const CATEGORIES = ["For Buy", "For Rent", "Services", "About Us", "Help Center"];
 
 export const Navbar = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState("en");
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const { user, loading, logout } = useAuth();
   const scrollRef = useRef();
-
   const isHome = location.pathname === "/";
 
   const scrollNav = (direction) => {
@@ -53,9 +50,10 @@ export const Navbar = () => {
       setScrolled(window.scrollY > 10);
     };
     window.addEventListener("scroll", handleScroll);
-    handleScroll(); // trigger on mount
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
   const handleLogout = async () => {
     await logout();
     setIsUserMenuOpen(false);
@@ -77,26 +75,20 @@ export const Navbar = () => {
             <img src={Logo} alt="Logo" className="h-20" />
           </Link>
 
-          <div className="flex-1 overflow-hidden relative">
-
-            {/* Scrollable Category Bar */}
-            <div
-              ref={scrollRef}
-              className="relative z-10 flex  gap-6 px-8"
-            >
+          <div className="hidden lg:flex flex-1 overflow-hidden relative">
+            <div ref={scrollRef} className="relative z-10 flex gap-6 px-8">
               {CATEGORIES.map((item, index) => (
                 <div key={index} className="relative flex-shrink-0">
-                    <Link
-                      to={
-                        index < 2
-                          ? `/browse/availability/${item.replace(/\s+/g, "-").toLowerCase()}`
-                          : `/${item.replace(/\s+/g, "-").toLowerCase()}`
-                      }
-                      className="text-sm font-medium text-white-700 hover:text-orange-100"
-                    >
-                      {item}
-                    </Link>
-                  
+                  <Link
+                    to={
+                      index < 2
+                        ? `/browse/availability/${item.replace(/\s+/g, "-").toLowerCase()}`
+                        : `/${item.replace(/\s+/g, "-").toLowerCase()}`
+                    }
+                    className="text-sm font-medium text-white-700 hover:text-orange-100"
+                  >
+                    {item}
+                  </Link>
                 </div>
               ))}
             </div>
@@ -104,10 +96,12 @@ export const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <Link to="/sell" className="hidden  lg:block text-sm font-medium text-dack hover:text-orange-100">Sell</Link>
+          <Link to="/sell" className="hidden lg:block text-sm font-medium text-dack hover:text-orange-100">
+            Sell
+          </Link>
 
-          {!loading && (
-            user ? (
+          {!loading &&
+            (user ? (
               <UserMenu
                 lastName={user.name || ""}
                 isOpen={isUserMenuOpen}
@@ -121,25 +115,33 @@ export const Navbar = () => {
             ) : (
               <Link
                 to="/auth"
-                className="hidden  lg:block text-sm font-medium text-dack hover:text-orange-100"
+                className="hidden lg:block text-sm font-medium text-dack hover:text-orange-100"
               >
                 Sign in
               </Link>
-            )
-          )}
+            ))}
 
-          <button className="lg:hidden p-1 hover:bg-orange-100 text-white rounded-lg" onClick={() => setIsMobileMenuOpen(true)}>
-            <Menu className="h-6 w-6" />
-          </button>
+            <button
+              className={`lg:hidden p-1 rounded-lg hover:bg-orange-100 transition-colors ${
+                isHome && !scrolled ? "text-white" : "text-black"
+              }`}
+              onClick={() => setIsMobileMenuOpen(true)}
+            >
+              <Menu className="h-6 w-6" />
+            </button>
         </div>
       </nav>
 
       <MobileMenu
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
-        navItems={[]}
-        currentLanguage={selectedLanguage}
-        onLanguageSelect={setSelectedLanguage}
+        navItems={CATEGORIES.map((item, index) => ({
+          label: item,
+          path:
+            index < 2
+              ? `/browse/availability/${item.replace(/\s+/g, "-").toLowerCase()}`
+              : `/${item.replace(/\s+/g, "-").toLowerCase()}`
+        }))}
         user={user}
         onLogout={handleLogout}
       />

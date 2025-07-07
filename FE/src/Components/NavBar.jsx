@@ -105,6 +105,7 @@ export const Navbar = () => {
               <UserMenu
                 lastName={user.name || ""}
                 isOpen={isUserMenuOpen}
+                isScrolled={scrolled}
                 onToggle={(e) => {
                   e.stopPropagation();
                   setIsUserMenuOpen(!isUserMenuOpen);

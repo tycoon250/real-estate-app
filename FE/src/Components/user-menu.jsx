@@ -1,11 +1,13 @@
 import { ChevronDown, User, Heart, Settings, LogOut, Briefcase } from "lucide-react";
 import { Link } from "react-router-dom";
 
-export function UserMenu({ lastName, isOpen, onToggle, onLogout }) {
+export function UserMenu({ lastName, isOpen, onToggle, onLogout, isScrolled }) {
   return (
     <div className="relative">
       <button
-        className="dropdown-trigger flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-blue-600"
+        className={`dropdown-trigger flex items-center gap-1 text-sm font-medium ${
+          isScrolled ? "text-gray-600 hover:text-blue-600" : "text-white"
+        }`}
         onClick={onToggle}
       >
         {lastName}
@@ -31,8 +33,8 @@ export function UserMenu({ lastName, isOpen, onToggle, onLogout }) {
             to="/client/deals"
             className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
           >
-  <Briefcase className="mr-2 h-4 w-4" />
-  Your Deals 
+          <Briefcase className="mr-2 h-4 w-4" />
+            Your Deals
           </Link>
           <button
             onClick={onLogout}

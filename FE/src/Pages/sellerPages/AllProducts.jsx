@@ -161,7 +161,7 @@ const SellerProperties = () => {
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
-      currency: "USD",
+      currency: "RWF",
       minimumFractionDigits: 0,
     }).format(amount);
   };

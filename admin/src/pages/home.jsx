@@ -10,13 +10,21 @@ import {
   BarChart3,
   TrendingUp,
   ArrowRight,
+  Tent,
 } from "lucide-react";
 // import api from "../utils/api";
 import axios from "axios";
 import api from "@/utils/api";
+import ConversationChart from "../components/conversationChart";
 
 const Index = () => {
   const [summaryData, setSummaryData] = useState([
+    {
+      title: "Total Sellers",
+      value: 'Loading...',
+      icon: <Tent size={22} className="text-blue-600" />,
+      trend: { value: Math.random() * 10, isPositive: true },
+    },
     {
       title: "Total Products",
       value: "Loading...",
@@ -24,7 +32,7 @@ const Index = () => {
       trend: { value: 0, isPositive: true },
     },
     {
-      title: "Total Orders",
+      title: "Total Deals",
       value: "Loading...",
       icon: <ShoppingCart size={22} className="text-emerald-600" />,
       trend: { value: 0, isPositive: true },
@@ -34,15 +42,11 @@ const Index = () => {
       value: "Loading...",
       icon: <Users size={22} className="text-purple-600" />,
       trend: { value: 0, isPositive: true },
-    },
-    {
-      title: "Revenue",
-      value: "Loading...",
-      icon: <DollarSign size={22} className="text-amber-600" />,
-      trend: { value: 0, isPositive: false },
-    },
+    }
   ]);
   const API_URL = import.meta.env.VITE_API_URL;
+  const [recentConvs, setRecentConvs] = useState([]);
+  const [groupedSellers,setGroupedSellers] = useState([])
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -50,30 +54,35 @@ const Index = () => {
           axios.get(API_URL+"/api/product/all"),
           api.get(API_URL+"/api/users/all"),
         ]);
+        const {data} = await axios.get(API_URL+"/api/dashboard/admin", {
+          withCredentials: true,
+        });
+        setRecentConvs(data.recentConversations);
+        setGroupedSellers(data.groupedSellers)
         setSummaryData([
           {
+            title: "Total Sellers",
+            value: data.sellerCount.toLocaleString(),
+            icon: <Tent size={22} className="text-blue-600" />,
+            trend: { value: Math.random() * 10, isPositive: true },
+          },
+          {
             title: "Total Products",
-            value: productsRes.data.pagination.total.toLocaleString(),
+            value: data.productCount.toLocaleString(),
             icon: <Package size={22} className="text-blue-600" />,
             trend: { value: Math.random() * 10, isPositive: true },
           },
           {
-            title: "Total Orders",
-            value: "1,257", // Replace with actual order data if available
+            title: "Total deals",
+            value: data.conversationCount.toLocaleString(),
             icon: <ShoppingCart size={22} className="text-emerald-600" />,
             trend: { value: Math.random() * 10, isPositive: true },
           },
           {
             title: "Total Customers",
-            value: usersRes.data.data.totalUsers.toLocaleString(),
+            value: data.buyerCount.toLocaleString(),
             icon: <Users size={22} className="text-purple-600" />,
             trend: { value: Math.random() * 10, isPositive: true },
-          },
-          {
-            title: "Revenue",
-            value: "$128,450", // Replace with actual revenue data if available
-            icon: <DollarSign size={22} className="text-amber-600" />,
-            trend: { value: Math.random() * 10, isPositive: false },
           },
         ]);
       } catch (error) {
@@ -104,7 +113,7 @@ const Index = () => {
               title={item.title}
               value={item.value}
               icon={item.icon}
-              trend={item.trend}
+              trend={null}
             />
           ))}
         </div>
@@ -120,47 +129,47 @@ const Index = () => {
             </div>
             <div className="p-6 h-64 flex items-center justify-center">
               <div className="w-full h-full flex items-center justify-center text-gray-400">
-                <div className="text-center">
-                  <TrendingUp size={32} className="mx-auto mb-2" />
-                  <p>Sales graph will be displayed here</p>
-                </div>
+              {!groupedSellers.length ?
+                  (<div className="text-center">
+                    <TrendingUp size={32} className="mx-auto mb-2" />
+                      <p>nothing here !</p>
+                    </div>)
+                   :
+                   <ConversationChart data={groupedSellers}/> }
               </div>
             </div>
           </div>
 
           <div className="bg-white rounded-lg shadow-sm">
-            <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-              <h2 className="font-semibold text-gray-800">Recent Orders</h2>
+          <div className="p-6 border-b border-gray-100 flex justify-between items-center">
+              <h2 className="font-semibold text-gray-800">Recent Deals</h2>
               <Link
-                to="/orders"
+                to="/messages"
                 className="text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1"
               >
                 View all <ArrowRight size={14} />
               </Link>
             </div>
             <div className="divide-y divide-gray-100">
-              {[1, 2, 3, 4, 5].map((item) => (
+              {recentConvs.map((item,index) => (
                 <div
-                  key={item}
+                  key={index}
                   className="p-4 hover:bg-gray-50 transition-colors"
                 >
                   <div className="flex justify-between mb-1">
                     <p className="font-medium text-sm text-gray-800">
-                      Order #
-                      {Math.floor(Math.random() * 10000)
-                        .toString()
-                        .padStart(4, "0")}
+                      Deal with
                     </p>
-                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-green-100 text-green-800">
-                      Completed
+                    <span className="text-xs font-medium px-2 py-1  text-gray-800">
+                      On
                     </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <p className="text-gray-500">
-                      Customer #{Math.floor(Math.random() * 1000)}
+                      {item.participants[0].name}
                     </p>
                     <p className="text-gray-700 font-medium">
-                      ${(Math.random() * 200).toFixed(2)}
+                      {item.createdAt}
                     </p>
                   </div>
                 </div>
@@ -168,10 +177,10 @@ const Index = () => {
             </div>
             <div className="p-4 border-t border-gray-100">
               <Link
-                to="/orders"
+                to="/messages"
                 className="text-sm text-center block w-full py-2 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors"
               >
-                View All Orders
+                View All Deals
               </Link>
             </div>
           </div>
@@ -195,15 +204,15 @@ const Index = () => {
             </Link>
 
             <Link
-              to="/orders"
+              to="/all-products"
               className="p-6 text-center border-r border-b border-gray-100 hover:bg-gray-50 transition-colors"
             >
               <div className="w-12 h-12 mx-auto mb-3 bg-emerald-100 text-emerald-600 rounded-lg flex items-center justify-center">
                 <ShoppingCart size={24} />
               </div>
-              <h3 className="font-medium text-gray-800">Process Orders</h3>
+              <h3 className="font-medium text-gray-800">all Products</h3>
               <p className="text-xs text-gray-500 mt-1">
-                Manage pending orders
+                Manage Products
               </p>
             </Link>
 

@@ -14,6 +14,7 @@ import { chatRouter } from "./routes/chatRoutes.js";
 import { sellerRouter } from "./routes/sellerRouter.js"; 
 import { otherRoute } from "./routes/otherRoute.js";
 import './root.config.js'
+import { DashRouter } from "./routes/dashboradRoutes.js";
 
 const FE_LINK = process.env.FE_LINK || "http://localhost:3000";
 const ADMIN_FE_LINK = process.env.ADMIN_FE_LINK || "http://localhost:5173";
@@ -47,6 +48,7 @@ app.use("/api/product", productRouter);
 app.use("/api/chat", chatRouter);
 app.use("/api/seller", sellerRouter);
 app.use("/api/contact", otherRoute);
+app.use("/api/dashboard", DashRouter);
 
 // Create HTTP server and integrate with socket.io
 const server = http.createServer(app);

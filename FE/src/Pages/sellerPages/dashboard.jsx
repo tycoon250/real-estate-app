@@ -13,6 +13,7 @@ import {
 import axios from "axios";
 import DashboardCard from "../../Components/sellerComponents/DashboardCard";
 import { useAuthContext } from "../../Components/sellerComponents/AuthContext";
+import ConversationChart from "../../Components/conversationChart";
 
 const Dashboard = () => {
   const [summaryData, setSummaryData] = useState([
@@ -23,24 +24,20 @@ const Dashboard = () => {
       trend: { value: 0, isPositive: true },
     },
     {
-      title: "Total Orders",
+      title: "Total Deals",
       value: "Loading...",
       icon: <ShoppingCart size={22} className="text-emerald-600" />,
       trend: { value: 0, isPositive: true },
     },
     {
-      title: "Total Customers",
+      title: "Total Likes",
       value: "Loading...",
       icon: <Users size={22} className="text-purple-600" />,
       trend: { value: 0, isPositive: true },
-    },
-    {
-      title: "Revenue",
-      value: "Loading...",
-      icon: <DollarSign size={22} className="text-amber-600" />,
-      trend: { value: 0, isPositive: false },
-    },
+    }
   ]);
+  const [recentConvs, setRecentConvs] = useState([]);
+  const [groupedConvs,setGroupedConvs] = useState([])
   const API_URL = process.env.REACT_APP_API_URL;
   useEffect(() => {
     const fetchData = async () => {
@@ -50,31 +47,31 @@ const Dashboard = () => {
             withCredentials: true,
           }),
         ]);
+        const {data} = await axios.get(API_URL+"/api/dashboard/seller", {
+          withCredentials: true,
+        });
+        setRecentConvs(data.recentConversations);
+        setGroupedConvs(data.groupedConversations)
         setSummaryData([
           {
             title: "Total Products",
-            value: productsRes.data.pagination.total.toLocaleString(),
+            value: data.productCount.toLocaleString(),
             icon: <Package size={22} className="text-blue-600" />,
             trend: { value: Math.random() * 10, isPositive: true },
           },
           {
-            title: "Total Orders",
-            value: "1,257", // Replace with actual order data if available
+            title: "Total Deals",
+            value: data.conversationCount.toLocaleString(), // Replace with actual order data if available
             icon: <ShoppingCart size={22} className="text-emerald-600" />,
             trend: { value: Math.random() * 10, isPositive: true },
           },
           {
             title: "Total Likes",
-            value: 23,
+            value: data.wishlistCount.toLocaleString(),
             icon: <Users size={22} className="text-purple-600" />,
             trend: { value: Math.random() * 10, isPositive: true },
           },
-          {
-            title: "Revenue",
-            value: "$128,450", // Replace with actual revenue data if available
-            icon: <DollarSign size={22} className="text-amber-600" />,
-            trend: { value: Math.random() * 10, isPositive: false },
-          },
+          
         ]);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
@@ -113,54 +110,54 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="bg-white rounded-lg shadow-sm lg:col-span-2">
             <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-              <h2 className="font-semibold text-gray-800">Sales Overview</h2>
+              <h2 className="font-semibold text-gray-800">Deals Overview</h2>
               <button className="text-sm text-gray-500 hover:text-gray-700 flex items-center gap-1">
                 Monthly <BarChart3 size={14} />
               </button>
             </div>
             <div className="p-6 h-64 flex items-center justify-center">
               <div className="w-full h-full flex items-center justify-center text-gray-400">
-                <div className="text-center">
-                  <TrendingUp size={32} className="mx-auto mb-2" />
-                  <p>Sales graph will be displayed here</p>
-                </div>
+                  {!groupedConvs.length ?
+                  (<div className="text-center">
+                    <TrendingUp size={32} className="mx-auto mb-2" />
+                      <p>nothing here !</p>
+                    </div>)
+                   :
+                   <ConversationChart data={groupedConvs}/> }
               </div>
             </div>
           </div>
 
           <div className="bg-white rounded-lg shadow-sm">
             <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-              <h2 className="font-semibold text-gray-800">Recent Orders</h2>
+              <h2 className="font-semibold text-gray-800">Recent Deals</h2>
               <Link
-                to="/orders"
+                to="/messages"
                 className="text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1"
               >
                 View all <ArrowRight size={14} />
               </Link>
             </div>
             <div className="divide-y divide-gray-100">
-              {[1, 2, 3, 4, 5].map((item) => (
+              {recentConvs.map((item,index) => (
                 <div
-                  key={item}
+                  key={index}
                   className="p-4 hover:bg-gray-50 transition-colors"
                 >
                   <div className="flex justify-between mb-1">
                     <p className="font-medium text-sm text-gray-800">
-                      Order #
-                      {Math.floor(Math.random() * 10000)
-                        .toString()
-                        .padStart(4, "0")}
+                      Deal with
                     </p>
-                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-green-100 text-green-800">
-                      Completed
+                    <span className="text-xs font-medium px-2 py-1  text-gray-800">
+                      On
                     </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <p className="text-gray-500">
-                      Customer #{Math.floor(Math.random() * 1000)}
+                      {item.participants[0].name}
                     </p>
                     <p className="text-gray-700 font-medium">
-                      ${(Math.random() * 200).toFixed(2)}
+                      {item.createdAt}
                     </p>
                   </div>
                 </div>
@@ -168,17 +165,17 @@ const Dashboard = () => {
             </div>
             <div className="p-4 border-t border-gray-100">
               <Link
-                to="/orders"
+                to="/messages"
                 className="text-sm text-center block w-full py-2 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors"
               >
-                View All Orders
+                View All Deals
               </Link>
             </div>
           </div>
         </div>
 
         {/* Quick Actions */}
-        <div className="mt-8 bg-white rounded-lg shadow-sm overflow-hidden">
+        {/* <div className="mt-8 bg-white rounded-lg shadow-sm overflow-hidden">
           <div className="p-6 border-b border-gray-100">
             <h2 className="font-semibold text-gray-800">Quick Actions</h2>
           </div>
@@ -201,7 +198,7 @@ const Dashboard = () => {
               <div className="w-12 h-12 mx-auto mb-3 bg-emerald-100 text-emerald-600 rounded-lg flex items-center justify-center">
                 <ShoppingCart size={24} />
               </div>
-              <h3 className="font-medium text-gray-800">Process Orders</h3>
+              <h3 className="font-medium text-gray-800">Vie Orders</h3>
               <p className="text-xs text-gray-500 mt-1">
                 Manage pending orders
               </p>
@@ -233,7 +230,7 @@ const Dashboard = () => {
               </p>
             </Link>
           </div>
-        </div>
+        </div> */}
       </main>
     </div>
   );

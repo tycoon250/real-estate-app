@@ -10,7 +10,7 @@ const DashboardCard = ({ title, value, icon, trend, color = "bg-white" }) => {
           <p className="text-gray-500 text-sm font-medium mb-1">{title}</p>
           <h3 className="text-2xl font-bold text-gray-900">{value}</h3>
 
-          {trend && (
+          {/* {trend && (
             <div className="flex items-center mt-2">
               <span
                 className={`text-xs font-medium ${
@@ -22,7 +22,7 @@ const DashboardCard = ({ title, value, icon, trend, color = "bg-white" }) => {
               </span>
               <span className="text-xs text-gray-500 ml-1">vs last month</span>
             </div>
-          )}
+          )} */}
         </div>
 
         <div className="p-2 rounded-md bg-gray-100">{icon}</div>

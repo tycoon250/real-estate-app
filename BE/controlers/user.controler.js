@@ -283,7 +283,7 @@ export const logout = (req, res) => {
   res.clearCookie("auth_token", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production", // Only clear secure cookie in production
-    sameSite: "strict",
+    sameSite: process.env.NODE_ENV === "production" ? "none":"strict",
   });
 
   res.json({ message: "Logout successful" });
@@ -292,7 +292,7 @@ export const adLogout = (req, res) => {
   res.clearCookie("auth_ad_token", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production", // Only clear secure cookie in production
-    sameSite: "strict",
+    sameSite: process.env.NODE_ENV === "production" ? "none":"strict",
   });
 
   res.json({ message: "Logout successful" });

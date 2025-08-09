@@ -118,7 +118,6 @@ function Partners() {
       </div>
     );
   }
-  console.log(partners)
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="container mx-auto px-4">
@@ -163,7 +162,7 @@ function Partners() {
                     {imagePreview ? (
                       <div className="relative">
                         <img
-                          src={API_URL+'/'+imagePreview}
+                          src={imagePreview}
                           alt="Preview"
                           className="h-32 w-32 object-contain"
                         />
@@ -245,7 +244,7 @@ function Partners() {
                   className="bg-gray-50 rounded-lg p-6 flex flex-col items-center group relative hover:shadow-md transition duration-200"
                 >
                   <img
-                    src={`${partner.logo.path}`}
+                    src={`${API_URL+'/'+partner.logo.path}`}
                     alt={`${partner.name} logo`}
                     className="h-24 w-24 object-contain mb-3"
                   />

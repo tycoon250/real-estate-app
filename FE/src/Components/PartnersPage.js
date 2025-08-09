@@ -144,7 +144,7 @@ const PartnersPage = () => {
             >
               <div className="bg-white rounded-lg p-3 sm:p-4 h-16 sm:h-20 md:h-24 flex items-center justify-center shadow-sm hover:shadow-md transition-shadow duration-300">
                 <img
-                  src={partner.logo.path}
+                  src={API_URL+'/'+partner.logo.path}
                   alt={`${partner.name} logo`}
                   className="max-w-full max-h-full object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
                 />

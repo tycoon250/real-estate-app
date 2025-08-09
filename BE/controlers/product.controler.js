@@ -254,15 +254,14 @@ export const updateProduct = async (req, res) => {
       for (const image of removedImages) {
         try {
           // Remove image from AWS S3
+          product.image = product.image.filter((img) => img.path !== image.path);
           await s3.send(
             new DeleteObjectCommand({
               Bucket: process.env.AWS_BUCKET_NAME,
               Key: image.path,
             })
           );
-
           // Remove image from product's image array
-          product.image = product.image.filter((img) => img.path !== image.path);
         } catch (err) {
           console.error(`Failed to delete image ${image.path} from AWS S3:`, err.message);
         }

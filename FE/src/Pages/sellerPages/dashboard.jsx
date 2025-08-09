@@ -154,10 +154,10 @@ const Dashboard = () => {
                   </div>
                   <div className="flex justify-between text-sm">
                     <p className="text-gray-500">
-                      {item.participants[0].name}
+                      {item.participants[0]?.name}
                     </p>
                     <p className="text-gray-700 font-medium">
-                      {item.createdAt}
+                      {item?.createdAt}
                     </p>
                   </div>
                 </div>

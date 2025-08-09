@@ -6,8 +6,8 @@ import fs from "fs"
 import asyncHandler from "express-async-handler";
 import { config } from "dotenv";
 import Partner from "../models/Partner.js";
-import { cloudinaryStorage } from "./upload.controller.js";
-import cloudinary from "./cloudinary.controller.js";
+import { multerUpload } from "./upload.controller.js";
+import { S3Client, DeleteObjectCommand } from "@aws-sdk/client-s3";
 config()
 
 
@@ -68,7 +68,8 @@ const fileFilter = (req, file, cb) => {
   };
 
   
-export const uploadLogo = multer({ storage: cloudinaryStorage, fileFilter }).single("logo");
+// Use multerUpload for S3 file uploads
+export const uploadLogo = multerUpload.single("logo");
 
 
 
@@ -82,15 +83,14 @@ export const uploadPartnerLogo = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Partner name is required");
   }
-  // Extract Cloudinary file details
-  const { path: logoPath, filename: fileId } = req.file;
-
+  // Extract S3 file details
+  const { location: logoPath, key: fileId } = req.file;
   // Save to the database
   const newPartner = await Partner.create({
     name,
     logo: {
-      path: logoPath,
-      file_id: fileId,
+      path: fileId,
+      file_id: logoPath,
     },
   });
   // Save to the database
@@ -115,8 +115,19 @@ export const deletePartnerLogo = asyncHandler(async (req, res) => {
   // Delete the partner from the database
   await partner.deleteOne();
 
-  // Remove logo file from disk
-  cloudinary.uploader.destroy(partner.logo.file_id);
+  // Remove logo file from S3
+  const s3 = new S3Client({
+    region: process.env.AWS_REGION,
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    },
+  });
+  const deleteParams = {
+    Bucket: process.env.AWS_BUCKET_NAME,
+    Key: partner.logo.path,
+  };
+  await s3.send(new DeleteObjectCommand(deleteParams));
 
   res.json({ message: "Partner and logo deleted successfully" });
 });

@@ -15,9 +15,10 @@ import { sellerRouter } from "./routes/sellerRouter.js";
 import { otherRoute } from "./routes/otherRoute.js";
 import './root.config.js'
 import { DashRouter } from "./routes/dashboradRoutes.js";
+import { uploads } from "./controlers/upload.controller.js";
 
 const FE_LINK = process.env.FE_LINK || "http://localhost:3000";
-const ADMIN_FE_LINK = process.env.ADMIN_FE_LINK || "http://localhost:5173";
+const ADMIN_FE_LINK = process.env.ADMIN_FE_LINK || "http://localhost:5174";
 dotenv.config();
 const app = express();
 app.use(express.json());
@@ -30,12 +31,12 @@ app.use(
 app.use(cookieParser());
 
 // Static directories for serving images
-app.use("/uploads/product-image", express.static("uploads/product-image"));
-app.use("/uploads/display-image", express.static("uploads/display-image"));
-app.use("/uploads/userImages", express.static("uploads/userImages"));
-app.use("/uploads/sellerDocuments", express.static("uploads/sellerDocuments"));
-app.use("/uploads/partners", express.static("uploads/partners"));
-
+// app.use("/uploads/product-image", express.static("uploads/product-image"));
+// app.use("/uploads/display-image", express.static("uploads/display-image"));
+// app.use("/uploads/userImages", express.static("uploads/userImages"));
+// app.use("/uploads/sellerDocuments", express.static("uploads/sellerDocuments"));
+// app.use("/uploads/partners", express.static("uploads/partners"));
+app.use("/uploads/*", uploads);
 // MongoDB Connection
 mongoose
   .connect(process.env.MONGODB_URI)

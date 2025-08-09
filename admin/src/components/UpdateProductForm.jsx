@@ -69,11 +69,11 @@ const UpdateProductForm = ({ id }) => {
         });
 
         setDisplayImagePreview(product.displayImage ? 
-          product.displayImage.path : "");
+          API_URL+'/'+product.displayImage.path : "");
         
         const images = Array.isArray(product.image) ? product.image : [];
         setExistingImages(images);
-        setImagesPreviews(images.map((img) => img.path));
+        setImagesPreviews(images.map((img) => API_URL+'/'+img.path));
       } catch (error) {
         console.error("Error fetching product:", error);
         toast.error("Failed to load product data");

@@ -66,7 +66,7 @@ const ProductCard = ({ product, onToggleWishlist, isWishlisted = false }) => {
         {/* Image Container */}
         <div className="relative aspect-[4/3]">
           <img
-            src={product.displayImage.path || "/placeholder.svg"}
+            src={API_URL+'/'+product.displayImage.path || "/placeholder.svg"}
             alt={product.title}
             className="w-full h-full object-contain"
             onError={(e) => {

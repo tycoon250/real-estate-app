@@ -348,7 +348,7 @@ const AllProducts = () => {
                                 {product.displayImage.path &&
                                 product.displayImage.path ? (
                                   <img
-                                    src={product.displayImage.path}
+                                    src={API_URL+'/'+product.displayImage.path}
                                     alt={product.title}
                                     className="h-10 w-10 object-cover rounded"
                                   />

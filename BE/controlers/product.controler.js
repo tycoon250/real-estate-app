@@ -10,8 +10,15 @@ const __dirname = path.dirname(__filename);
 import { Product } from "../models/product.model.js";
 import { Wishlist } from "../models/wishlist.model.js";
 import { User } from "../models/user.model.js";
-import cloudinary from "./cloudinary.controller.js";
-
+import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+const s3 = new S3Client({
+  region: process.env.AWS_REGION,
+  endpoint: `https://s3.${process.env.AWS_REGION}.amazonaws.com`,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
+});
 //create a new product
 export const createProduct = async (req, res) => {
   try {
@@ -39,15 +46,14 @@ export const createProduct = async (req, res) => {
 
     // Get file paths
     const displayImage = {
-      path: req.files.displayImage[0].path,
-      public_id: req.files.displayImage[0].filename
+      path: req.files.displayImage[0].key, // AWS S3 resolved path
+      public_id: req.files.displayImage[0].location // AWS S3 key
     };
     
     const images = req.files.images.map((file) => ({
-      path: file.path,
-      public_id: file.filename
+      path: file.key, // AWS S3 resolved path
+      public_id: file.location // AWS S3 key
     }));
-       
     // Create the product
     const product = new Product({
       title,
@@ -227,9 +233,10 @@ export const updateProduct = async (req, res) => {
       location,
       beds,
       baths,
-      specifications
+      specifications,
     } = req.body;
     let { removedImages } = req.body;
+
     if (typeof removedImages === "string") {
       removedImages = JSON.parse(removedImages);
     }
@@ -237,43 +244,50 @@ export const updateProduct = async (req, res) => {
 
     const product = await Product.findById(req.params.id);
     if (!product) return res.status(404).json({ message: "Product not found" });
+
     if (title) {
       product.slug = title.toLowerCase().replace(/\s+/g, "-");
     }
-    // Delete all existing product images from Cloudinary
-    if (product.image && product.image.length > 0) {
-      for (const img of product.image) {
-        cloudinary.uploader.destroy(img.public_id);
+
+    // Delete removed images from AWS S3
+    if (removedImages && removedImages.length > 0) {
+      for (const image of removedImages) {
+        try {
+          // Remove image from AWS S3
+          await s3.send(
+            new DeleteObjectCommand({
+              Bucket: process.env.AWS_BUCKET_NAME,
+              Key: image.path,
+            })
+          );
+
+          // Remove image from product's image array
+          product.image = product.image.filter((img) => img.path !== image.path);
+        } catch (err) {
+          console.error(`Failed to delete image ${image.path} from AWS S3:`, err.message);
+        }
       }
-    }
-    // Delete the existing display image from Cloudinary
-    if (product.displayImage && product.displayImage.public_id) {
-       cloudinary.uploader.destroy(product.displayImage.public_id);
     }
 
     // Assign the new display image to the product
-    if (req.files.displayImage) {
+    if (req.files && req.files.displayImage) {
       const newDisplayImage = {
-        path: req.files.displayImage[0].path,
-        public_id: req.files.displayImage[0].filename,
+        path: req.files.displayImage[0].key, // AWS S3 resolved path
+        public_id: req.files.displayImage[0].location, // AWS S3 key
       };
       product.displayImage = newDisplayImage;
     }
-    if (removedImages && removedImages.length > 0) {
-      removedImages.forEach((image) => {
-        cloudinary.uploader.destroy(image.public_id);
-        product.image = product.image.filter((img) => img.path !== image.path);
-      });
-    }
 
-    if (req.files.images) {
-      const images = req.files.images.map(
-      (file) => ({ path: file.path, public_id: file.filename })
-      );
+    // Add new images to the product
+    if (req.files && req.files.images) {
+      const images = req.files.images.map((file) => ({
+        path: file.key, // AWS S3 resolved path
+        public_id: file.location, // AWS S3 key
+      }));
       images.forEach((image) => {
-      if (!product.image.some((img) => img.path === image.path)) {
-        product.image.push(image);
-      }
+        if (!product.image.some((img) => img.path === image.path)) {
+          product.image.push(image);
+        }
       });
     }
 
@@ -286,11 +300,11 @@ export const updateProduct = async (req, res) => {
     product.status = status || product.status;
     product.location = location || product.location;
     product.beds = !isNaN(beds) && beds !== "" ? Number(beds) : product.beds;
-    product.specifications = typeof specifications === "string" ? JSON.parse(specifications) : specifications
-    product.baths =
-      !isNaN(baths) && baths !== "" ? Number(baths) : product.baths;
-    // beds ? Number(beds) : existingProduct.beds;
-    //baths: baths ? Number(baths) : existingProduct.baths,
+    product.baths = !isNaN(baths) && baths !== "" ? Number(baths) : product.baths;
+    product.specifications =
+      typeof specifications === "string"
+        ? JSON.parse(specifications)
+        : specifications || product.specifications;
 
     // Save the updated product
     await product.save();
@@ -298,7 +312,7 @@ export const updateProduct = async (req, res) => {
     res.status(200).json({ message: "Product updated successfully", product });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error updating product" });
+    res.status(500).json({ message: "Error updating product", error: error.message });
   }
 };
 

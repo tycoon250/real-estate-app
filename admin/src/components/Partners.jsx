@@ -118,7 +118,7 @@ function Partners() {
       </div>
     );
   }
-
+  console.log(partners)
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="container mx-auto px-4">
@@ -163,7 +163,7 @@ function Partners() {
                     {imagePreview ? (
                       <div className="relative">
                         <img
-                          src={imagePreview}
+                          src={API_URL+'/'+imagePreview}
                           alt="Preview"
                           className="h-32 w-32 object-contain"
                         />

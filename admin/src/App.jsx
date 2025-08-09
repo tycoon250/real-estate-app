@@ -54,7 +54,6 @@ function App() {
               <Route path="/all-products" element={<AllProduct />} />
               <Route path="/messages" element={<AdminChatPage />} />
               <Route path="/admin/profile" element={<AdminProfile />} />
-              <Route path="/all-products" element={<AllProduct />} />
               <Route path="/new-product" element={<CreateProductForm />} />
               <Route path="/update-product/:id" element={<UpdateProduct />} />
               <Route path="/customers" element={<AllCustomers />} />
